@@ -1,10 +1,10 @@
 package assignment;
 
 import java.awt.*;
+import java.util.Arrays;
 
 /**
  * An immutable representation of a tetris piece in a particular rotation.
- * 
  * All operations on a TetrisPiece should be constant time, except for its
  * initial construction. This means that rotations should also be fast - calling
  * clockwisePiece() and counterclockwisePiece() should be constant time! You may
@@ -15,60 +15,120 @@ public final class TetrisPiece implements Piece {
     /**
      * Construct a tetris piece of the given type. The piece should be in its spawn orientation,
      * i.e., a rotation index of 0.
-     * 
      * You may freely add additional constructors, but please leave this one - it is used both in
      * the runner code and testing code.
      */
+    private final int NUM_ROTATIONS = 4;
+
+    private Point[] body;
+    private PieceType type;
+    private int rotationIndex;
+    private int[] skirt;
+    private CircularLL rotations;
+    private CircularLL.Node piece;
+    private int width;
+    private int height;
+
     public TetrisPiece(PieceType type) {
-        // TODO: Implement me.
+        this(type, 0, type.getSpawnBody());
+        computeRotations(body);
+    }
+
+    public TetrisPiece(PieceType type, int rindex, Point[] body) {
+        this.type = type;
+        this.body = body;
+        rotationIndex = rindex;
+        Dimension boundingBox = type.getBoundingBox();
+        width = (int) boundingBox.getWidth();
+        height = (int) boundingBox.getHeight();
+        generateSkirt(body);
+    }
+
+    public void computeRotations(Point[] body) {
+        rotations = new CircularLL();
+        rotations.insert(this);
+        CircularLL.Node curr = rotations.getHead();
+        for (int i = 1; i < NUM_ROTATIONS; i++) {
+            Point[] newBody = new Point[body.length];
+            for (int j = 0; j < body.length; j++) {
+                Point currPoint = curr.data.getBody()[j];
+                int newX = (int)currPoint.getY();
+                int newY = width - (int)currPoint.getX() - 1;
+                newBody[j] = new Point(newX, newY);
+            }
+            rotations.insert(new TetrisPiece(type, i, newBody));
+            curr = curr.next;
+        }
+        CircularLL.Node head = rotations.getHead();
+        curr = head;
+        piece = curr;
+        do {
+            if (curr.data.equals(this)) {
+                piece = curr;
+            }
+            curr.data.setRotations(rotations);
+            curr = curr.next;
+        } while (curr != head);
+    }
+
+    public void generateSkirt(Point[] body) {
+        skirt = new int[width];
+        Arrays.fill(skirt, Integer.MAX_VALUE);
+        for (Point p : body) {
+            if (p.y < skirt[p.x]) {
+                skirt[p.x] = p.y;
+            }
+        }
+    }
+
+    public void setRotations(CircularLL rotations) {
+        this.rotations = rotations;
     }
 
     @Override
     public PieceType getType() {
-        // TODO: Implement me.
-        return null;
+        return type;
     }
 
     @Override
     public int getRotationIndex() {
-        // TODO: Implement me.
-        return -1;
+        return rotationIndex;
     }
 
     @Override
     public Piece clockwisePiece() {
+        return piece.next.data;
         // TODO: Implement me.
-        return null;
     }
 
     @Override
     public Piece counterclockwisePiece() {
+        return piece.prev.data;
         // TODO: Implement me.
-        return null;
     }
 
     @Override
     public int getWidth() {
-        // TODO: Implement me.
-        return -1;
+        return width;
     }
 
     @Override
     public int getHeight() {
-        // TODO: Implement me.
-        return -1;
+        return height;
     }
 
     @Override
     public Point[] getBody() {
-        // TODO: Implement me.
-        return null;
+        return body;
     }
 
     @Override
     public int[] getSkirt() {
-        // TODO: Implement me.
-        return null;
+        return skirt;
+    }
+
+    public CircularLL getRotations() {
+        return rotations;
     }
 
     @Override
@@ -76,8 +136,6 @@ public final class TetrisPiece implements Piece {
         // Ignore objects which aren't also tetris pieces.
         if(!(other instanceof TetrisPiece)) return false;
         TetrisPiece otherPiece = (TetrisPiece) other;
-
-        // TODO: Implement me.
-        return false;
+        return this.rotationIndex == otherPiece.rotationIndex && this.type == otherPiece.type;
     }
 }
