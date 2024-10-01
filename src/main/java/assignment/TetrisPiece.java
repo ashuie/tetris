@@ -97,6 +97,7 @@ public final class TetrisPiece implements Piece {
 
     @Override
     public Piece clockwisePiece() {
+        System.out.println("PIECENODE: " + pieceNode);
         return pieceNode.next.data;
         // TODO: Implement me.
     }

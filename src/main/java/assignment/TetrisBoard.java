@@ -42,19 +42,19 @@ public final class TetrisBoard implements Board {
             case LEFT:
                 if(outOfBounds(currPiece, currPiecePosition, -1, 0)) {
                     lastResult = Result.OUT_BOUNDS;
-                    return Result.OUT_BOUNDS;
+                } else {
+                    currPiecePosition.setLocation(currPiecePosition.x - 1, currPiecePosition.y);
+                    lastResult = Result.SUCCESS;
                 }
-                currPiecePosition.setLocation(currPiecePosition.x - 1, currPiecePosition.y);
-                lastResult = Result.SUCCESS;
-                return Result.SUCCESS;
+                break;
             case RIGHT:
                 if(outOfBounds(currPiece, currPiecePosition, 1, 0)) {
                     lastResult = Result.OUT_BOUNDS;
-                    return Result.OUT_BOUNDS;
+                } else {
+                    currPiecePosition.setLocation(currPiecePosition.x + 1, currPiecePosition.y);
+                    lastResult = Result.SUCCESS;
                 }
-                currPiecePosition.setLocation(currPiecePosition.x + 1, currPiecePosition.y);
-                lastResult = Result.SUCCESS;
-                return Result.SUCCESS;
+                break;
             case DOWN:
                 // Implement placing
                 if(!downInBounds()) {
@@ -64,23 +64,29 @@ public final class TetrisBoard implements Board {
                     currPiecePosition.setLocation(currPiecePosition.x, currPiecePosition.y - 1);
                     lastResult = Result.SUCCESS;
                 }
-                return lastResult;
+                break;
             case DROP:
                 currPiecePosition.setLocation(currPiecePosition.x, dropHeight(currPiece, currPiecePosition.x));
                 updateGridPlaceBlock();
                 lastResult = Result.PLACE;
-                return lastResult;
+                break;
             case CLOCKWISE:
-                //Piece newClockwise = currPiece.clockwisePiece();
-                //if(!inBounds(newClockwise., currPiecePosition.y))
-                  //  return Result.OUT_BOUNDS;
+                Piece newClockwise = currPiece.clockwisePiece();
+                if(outOfBounds(newClockwise, currPiecePosition, 0, 0)) {
+                    //try wall kicks
+                    lastResult = Result.NO_PIECE;
+                } else {
+                    currPiece = newClockwise;
+                    lastResult = Result.SUCCESS;
+                }
                 break;
             case COUNTERCLOCKWISE:
                 break;
             case NOTHING:
-                break;
+            default:
+                lastResult = Result.NO_PIECE;
         }
-        return Result.NO_PIECE;
+        return lastResult;
     }
 
     private void updateGridPlaceBlock() {
@@ -89,10 +95,10 @@ public final class TetrisBoard implements Board {
         int currX = currPiecePosition.x;
         int currY = currPiecePosition.y;
         //int[] skirts = currPiece.getSkirt();
-        for (int i = 0; i < currBody.length; i++) {
-            Point p = currBody[i];
-            System.out.println("Point: " + p);
+        for (Point p : currBody) {
+            //System.out.println("Point: " + p);
             rowWidths[currY + p.y]++;
+            //System.out.println("Row Width of  " + (currY + p.y) + " " + rowWidths[currY + p.y]);
             grid[currX + p.x][currY + p.y] = currPiece.getType();
             //heights[p.x]++;
         }
@@ -119,8 +125,8 @@ public final class TetrisBoard implements Board {
     // check this
     private void updateColHeight() {
         int currX = currPiecePosition.x;
-        for (int i = 0; i < width; i++) {
-            for (int j = height - maxHeight - 1; j >= 0; j--) {
+        for (int i = currX; i < currX + currPiece.getWidth(); i++) {
+            for (int j = height - 1; j >= 0; j--) {
                 if (grid[i][j] != null) {
                     columnHeights[i] = j + 1;
                     if (columnHeights[i] > maxHeight) {
@@ -130,6 +136,7 @@ public final class TetrisBoard implements Board {
                 }
             }
         }
+        System.out.println("Column heights " + Arrays.toString(columnHeights));
       /* int currX = currPiecePosition.x;
         int currY = currPiecePosition.y;
         int changeHeight = 0;
@@ -150,16 +157,12 @@ public final class TetrisBoard implements Board {
     }
 
     private void clearRows() {
-
     }
 
     private boolean downInBounds() {
         for(int i = 0; i < currPiece.getSkirt().length; ++i) {
             int sk = currPiece.getSkirt()[i];
-            if(sk == Integer.MAX_VALUE) {
-                continue;
-            }
-            else {
+            if(sk != Integer.MAX_VALUE) {
                 if(currPiecePosition.y + sk - 1 < 0 ||
                         grid[currPiecePosition.x + i][currPiecePosition.y + sk - 1] != null) {
                     return false;
@@ -223,7 +226,6 @@ public final class TetrisBoard implements Board {
 
     @Override
     public int dropHeight(Piece piece, int x) {
-        System.out.println("Column heights " + Arrays.toString(columnHeights));
         int minVal = Integer.MAX_VALUE;
         int minCol = 0;
         int currX = currPiecePosition.x;
