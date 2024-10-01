@@ -18,14 +18,14 @@ public final class TetrisPiece implements Piece {
      * You may freely add additional constructors, but please leave this one - it is used both in
      * the runner code and testing code.
      */
-    private final int NUM_ROTATIONS = 4;
+    private static final int NUM_ROTATIONS = 4;
 
     private Point[] body;
     private PieceType type;
     private int rotationIndex;
     private int[] skirt;
     private CircularLL rotations;
-    private CircularLL.Node piece;
+    private CircularLL.Node pieceNode;
     private int width;
     private int height;
 
@@ -61,10 +61,10 @@ public final class TetrisPiece implements Piece {
         }
         CircularLL.Node head = rotations.getHead();
         curr = head;
-        piece = curr;
+        pieceNode = curr;
         do {
             if (curr.data.equals(this)) {
-                piece = curr;
+                pieceNode = curr;
             }
             curr.data.setRotations(rotations);
             curr = curr.next;
@@ -97,13 +97,13 @@ public final class TetrisPiece implements Piece {
 
     @Override
     public Piece clockwisePiece() {
-        return piece.next.data;
+        return pieceNode.next.data;
         // TODO: Implement me.
     }
 
     @Override
     public Piece counterclockwisePiece() {
-        return piece.prev.data;
+        return pieceNode.prev.data;
         // TODO: Implement me.
     }
 

@@ -4,7 +4,7 @@ import java.awt.Point;
 
 public class TetrisPieceTest {
     public static void main(String[] args) {
-        TetrisPiece test = new TetrisPiece(Piece.PieceType.T);
+        TetrisPiece test = new TetrisPiece(Piece.PieceType.STICK);
         CircularLL rotations = test.getRotations();
         System.out.println("Rotations: \n" + rotations);
         CircularLL.Node curr = rotations.getHead();
