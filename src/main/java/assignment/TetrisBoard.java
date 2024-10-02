@@ -1,8 +1,7 @@
 package assignment;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashSet;
 
 /**
  * Represents a Tetris board -- essentially a 2D grid of piece types (or nulls). Supports
@@ -10,16 +9,20 @@ import java.util.Arrays;
  * pixels. Instead, just represents the abstract 2D board.
  */
 public final class TetrisBoard implements Board {
-    int width;
-    int height;
-    Piece currPiece;
-    Point currPiecePosition;
-    Result lastResult;
-    Action lastAction;
-    int rowsCleared;
-    int maxHeight;
-    int[] columnHeights;
-    int[] rowWidths;
+
+    public static final int CLOCKWISE_DIRECTION = 1;
+    public static final int COUNTERCLOCKWISE_DIRECTION = 0;
+
+    private final int width;
+    private final int height;
+    private Piece currPiece;
+    private Point currPiecePosition;
+    private Result lastResult;
+    private Action lastAction;
+    private int rowsCleared;
+    private int maxHeight;
+    private int[] columnHeights;
+    private int[] rowWidths;
     Piece.PieceType[][] grid;
 
     // JTetris will use this constructor
@@ -41,58 +44,37 @@ public final class TetrisBoard implements Board {
     public Result move(Action act) {
         switch (act) {
             case LEFT:
-                if(outOfBounds(currPiece, currPiecePosition, -1, 0)) {
-                    lastResult = Result.OUT_BOUNDS;
-                } else {
-                    currPiecePosition.setLocation(currPiecePosition.x - 1, currPiecePosition.y);
-                    lastResult = Result.SUCCESS;
-                }
+                tryHorizontalShift(-1);
                 break;
             case RIGHT:
-                if(outOfBounds(currPiece, currPiecePosition, 1, 0)) {
-                    lastResult = Result.OUT_BOUNDS;
-                } else {
-                    currPiecePosition.setLocation(currPiecePosition.x + 1, currPiecePosition.y);
-                    lastResult = Result.SUCCESS;
-                }
+                tryHorizontalShift(1);
                 break;
             case DOWN:
-                // Implement placing
-                if(!downInBounds()) {
+                if(downOutOfBounds()) {
                     updateGridPlaceBlock();
+                    lastAction = Action.DROP;
                     lastResult = Result.PLACE;
                 } else {
                     currPiecePosition.setLocation(currPiecePosition.x, currPiecePosition.y - 1);
+                    lastAction = Action.DOWN;
                     lastResult = Result.SUCCESS;
                 }
                 break;
             case DROP:
                 currPiecePosition.setLocation(currPiecePosition.x, dropHeight(currPiece, currPiecePosition.x));
                 updateGridPlaceBlock();
+                lastAction = Action.DROP;
                 lastResult = Result.PLACE;
                 break;
             case CLOCKWISE:
-                Piece newClockwise = currPiece.clockwisePiece();
-                if(outOfBounds(newClockwise, currPiecePosition, 0, 0)) {
-                    //try wall kicks
-                    lastResult = Result.NO_PIECE;
-                } else {
-                    currPiece = newClockwise;
-                    lastResult = Result.SUCCESS;
-                }
+                lastResult = rotatePiece(CLOCKWISE_DIRECTION);
                 break;
             case COUNTERCLOCKWISE:
-                Piece newCounterClockwise = currPiece.counterclockwisePiece();
-                if(outOfBounds(newCounterClockwise, currPiecePosition, 0, 0)) {
-                    //try wall kicks
-                    lastResult = Result.NO_PIECE;
-                } else {
-                    currPiece = newCounterClockwise;
-                    lastResult = Result.SUCCESS;
-                }
+                lastResult = rotatePiece(COUNTERCLOCKWISE_DIRECTION);
                 break;
             case NOTHING:
             default:
+                lastAction = Action.NOTHING;
                 lastResult = Result.NO_PIECE;
         }
         return lastResult;
@@ -109,27 +91,10 @@ public final class TetrisBoard implements Board {
             rowWidths[currY + p.y]++;
             //System.out.println("Row Width of  " + (currY + p.y) + " " + rowWidths[currY + p.y]);
             grid[currX + p.x][currY + p.y] = currPiece.getType();
-            //heights[p.x]++;
         }
         updateColHeight();
         clearRows();
-
-        /*for (int j = 0; j < heights.length; j++) {
-            System.out.println("Adding column" + (j + currX) + " amount: " + heights[j]);
-            columnHeights[j + currX] += heights[j];
-            if (columnHeights[j + currX] > maxHeight) {
-                maxHeight = columnHeights[j + currX];
-            }
-        }*/
     }
-
-   /* private int setMaxHeight() {
-        int maxHeight = 0;
-        for(int height : columnHeights) {
-            maxHeight = Math.max(maxHeight, height);
-        }
-        return maxHeight;
-    }*/
 
     // check this
     // ACCOUNT FOR LEFT SKIRT
@@ -146,64 +111,53 @@ public final class TetrisBoard implements Board {
                 }
             }
         }
-        //System.out.println("Column heights " + Arrays.toString(columnHeights));
-      /* int currX = currPiecePosition.x;
-        int currY = currPiecePosition.y;
-        int changeHeight = 0;
-        for (int i = 0; i < currPiece.getWidth(); i++) {
-            if (currPiece.getSkirt()[i] != Integer.MAX_VALUE) {
-                changeHeight = 0;
-                //System.out.println("X: " + currX + " " + i + "  Y: " + currY + " + " + changeHeight);
-                while (grid[currX + i][height - currY + changeHeight] != null && currY + changeHeight < height) {
-                    ;changeHeight++;
-                }
-            }
-            columnHeights[i + currX] += changeHeight;
-        }*/
-        /*for(Point p : getCurrentPiece().getBody()) {
-            int colX = getCurrentPiecePosition().x + p.x;
-            columnHeights[colX] += p.y + 1;
-        }*/
     }
 
+    // USE ROWS CLEARED
     private void clearRows() {
-        ArrayList<Integer> completeRows = new ArrayList<>();
+        HashSet<Integer> completeRows = new HashSet<>();
         for(int row = 0; row < height; row++) {
             if(rowWidths[row] == width) {
                 completeRows.add(row);
             }
         }
-        if(completeRows.isEmpty()) return;
-        int numCompleteRows = completeRows.size();
-        int lastCompleteRow = completeRows.get(0);
-        int completeRowsPassed = 1;
-        for(int i = 1; i < numCompleteRows; i++) {
-            int currCompleteRow = completeRows.get(i);
-            for(int row = lastCompleteRow; row < currCompleteRow; row++) {
-                grid[row] = grid[row + completeRowsPassed];
+        if(completeRows.isEmpty()) {
+            return;
+        }
+        rowsCleared = completeRows.size();
+        int j = 0;
+        for (int i = 0; i < height; i++) {
+            if (!completeRows.contains(i)) {
+                for (int k = 0; k < width; k++) {
+                    grid[k][j] = grid[k][i];
+                    rowWidths[j] = rowWidths[i];
+                }
+                j++;
             }
-            completeRowsPassed++;
-            lastCompleteRow = currCompleteRow;
+        }
+        for (int m = 0; m < width; m++) {
+            columnHeights[m] -= rowsCleared;
         }
     }
 
-    private boolean downInBounds() {
+    private boolean downOutOfBounds() {
         for(int i = 0; i < currPiece.getSkirt().length; ++i) {
             int sk = currPiece.getSkirt()[i];
             if(sk != Integer.MAX_VALUE) {
                 if(currPiecePosition.y + sk - 1 < 0 ||
                         grid[currPiecePosition.x + i][currPiecePosition.y + sk - 1] != null) {
-                    return false;
+                    return true;
                 }
             }
         }
-        return true;
+        return false;
     }
+
     private boolean outOfBounds(Piece currP, Point currPos, int offsetX, int offsetY) {
         for(Point p : currP.getBody()) {
             int newPointX = p.x + offsetX + currPos.x;
             int newPointY = p.y + offsetY + currPos.y;
-            System.out.println("new point at " + newPointX + ", " + newPointY);
+            //System.out.println("new point at " + newPointX + ", " + newPointY);
             if(newPointX < 0 || newPointY < 0 ||
                     newPointX > width - 1 || newPointY > height
                     || grid[newPointX][newPointY] != null) {
@@ -213,8 +167,57 @@ public final class TetrisBoard implements Board {
         return false;
     }
 
+    private void tryHorizontalShift(int xOffset) {
+        if(outOfBounds(currPiece, currPiecePosition, xOffset, 0)) {
+            lastAction = Action.NOTHING;
+            lastResult = Result.OUT_BOUNDS;
+        } else {
+            currPiecePosition.setLocation(currPiecePosition.x + xOffset, currPiecePosition.y);
+            lastAction = (xOffset == -1) ? Action.LEFT : Action.RIGHT;
+            lastResult = Result.SUCCESS;
+        }
+    }
+
+    public Result rotatePiece(int direction) {
+        Piece rotatedPiece = (direction == CLOCKWISE_DIRECTION) ? currPiece.clockwisePiece() : currPiece.counterclockwisePiece();
+        if(outOfBounds(rotatedPiece, currPiecePosition, 0, 0)) {
+            return tryKick(direction, rotatedPiece);
+        } else {
+            currPiece = rotatedPiece;
+            lastAction = (direction == CLOCKWISE_DIRECTION) ? Action.CLOCKWISE : Action.COUNTERCLOCKWISE;
+            return Result.SUCCESS;
+        }
+    }
+
+    // direction = 1 : clockwise, 0 : counterclockwise
+    public Result tryKick(int direction, Piece rotatedPiece) {
+        int rindex = currPiece.getRotationIndex();
+        Point[] kicks = (rotatedPiece.getType() == Piece.PieceType.STICK) ?
+                ((direction == CLOCKWISE_DIRECTION) ? Piece.I_CLOCKWISE_WALL_KICKS[rindex]
+                : Piece.I_COUNTERCLOCKWISE_WALL_KICKS[rindex])
+                : ((direction == CLOCKWISE_DIRECTION) ? Piece.NORMAL_CLOCKWISE_WALL_KICKS[rindex]
+                : Piece.NORMAL_COUNTERCLOCKWISE_WALL_KICKS[rindex]);
+        for (Point p : kicks) {
+            if (!outOfBounds(rotatedPiece, currPiecePosition, p.x, p.y)) {
+                currPiecePosition.setLocation(currPiecePosition.x + p.x, currPiecePosition.y + p.y);
+                currPiece = rotatedPiece;
+                lastAction = (direction == CLOCKWISE_DIRECTION) ? Action.CLOCKWISE : Action.COUNTERCLOCKWISE;
+                return Result.SUCCESS;
+            }
+        }
+        lastAction = Action.NOTHING;
+        return Result.OUT_BOUNDS;
+    }
+
     @Override
-    public Board testMove(Action act) { return null; }
+    public Board testMove(Action act) {
+        TetrisBoard testBoard = new TetrisBoard(width, height);
+        testBoard.setGrid(this.getFullGrid());
+        testBoard.setCurrentPiece(currPiece);
+        testBoard.setCurrentPiecePosition(currPiecePosition);
+        testBoard.move(act);
+        return testBoard;
+    }
 
     @Override
     public Piece getCurrentPiece() { return currPiece; }
@@ -283,4 +286,20 @@ public final class TetrisBoard implements Board {
 
     @Override
     public Piece.PieceType getGrid(int x, int y) { return grid[x][y]; }
+
+    public Piece.PieceType[][] getFullGrid() {
+        return grid;
+    }
+
+    public void setGrid(Piece.PieceType[][] g) {
+        grid = g;
+    }
+
+    public void setCurrentPiece(Piece p) {
+        currPiece = p;
+    }
+
+    public void setCurrentPiecePosition(Point p) {
+        currPiecePosition = p;
+    }
 }
