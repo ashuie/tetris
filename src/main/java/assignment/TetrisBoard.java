@@ -67,10 +67,10 @@ public final class TetrisBoard implements Board {
                 lastResult = Result.PLACE;
                 break;
             case CLOCKWISE:
-                lastResult = rotatePiece(CLOCKWISE_DIRECTION);
+                lastResult = tryRotatePiece(CLOCKWISE_DIRECTION);
                 break;
             case COUNTERCLOCKWISE:
-                lastResult = rotatePiece(COUNTERCLOCKWISE_DIRECTION);
+                lastResult = tryRotatePiece(COUNTERCLOCKWISE_DIRECTION);
                 break;
             case NOTHING:
             default:
@@ -82,27 +82,21 @@ public final class TetrisBoard implements Board {
 
     private void updateGridPlaceBlock() {
         Point[] currBody = currPiece.getBody();
-        //int[] heights = new int[currPiece.getWidth()];
         int currX = currPiecePosition.x;
         int currY = currPiecePosition.y;
-        //int[] skirts = currPiece.getSkirt();
         for (Point p : currBody) {
-            //System.out.println("Point: " + p);
             rowWidths[currY + p.y]++;
-            //System.out.println("Row Width of  " + (currY + p.y) + " " + rowWidths[currY + p.y]);
             grid[currX + p.x][currY + p.y] = currPiece.getType();
         }
         updateColHeight();
         clearRows();
     }
 
-    // check this
-    // ACCOUNT FOR LEFT SKIRT
     private void updateColHeight() {
-        //int currX = currPiecePosition.x;
-        for (int i = 0; i < width; i++) {
+        int currX = currPiecePosition.x;
+        for (int i = currX; i < currX + currPiece.getWidth(); i++) {
             for (int j = height - 1; j >= 0; j--) {
-                if (grid[i][j] != null) {
+                if (i > 0 && i < width && grid[i][j] != null) {
                     columnHeights[i] = j + 1;
                     if (columnHeights[i] > maxHeight) {
                         maxHeight = columnHeights[i];
@@ -178,7 +172,7 @@ public final class TetrisBoard implements Board {
         }
     }
 
-    public Result rotatePiece(int direction) {
+    public Result tryRotatePiece(int direction) {
         Piece rotatedPiece = (direction == CLOCKWISE_DIRECTION) ? currPiece.clockwisePiece() : currPiece.counterclockwisePiece();
         if(outOfBounds(rotatedPiece, currPiecePosition, 0, 0)) {
             return tryKick(direction, rotatedPiece);
@@ -189,7 +183,6 @@ public final class TetrisBoard implements Board {
         }
     }
 
-    // direction = 1 : clockwise, 0 : counterclockwise
     public Result tryKick(int direction, Piece rotatedPiece) {
         int rindex = currPiece.getRotationIndex();
         Point[] kicks = (rotatedPiece.getType() == Piece.PieceType.STICK) ?
@@ -237,7 +230,16 @@ public final class TetrisBoard implements Board {
     }
 
     @Override
-    public boolean equals(Object other) { return false; }
+    public boolean equals(Object other) {
+        if (!(other instanceof TetrisBoard)) {
+            return false;
+        }
+        TetrisBoard otherBoard = (TetrisBoard) other;
+        boolean equalGrid = this.grid == otherBoard.getFullGrid();
+        boolean equalCurrPiece = this.currPiece == otherBoard.getCurrentPiece() &&
+                this.currPiecePosition == otherBoard.getCurrentPiecePosition();
+        return equalGrid && equalCurrPiece;
+    }
 
     @Override
     public Result getLastResult() { return lastResult; }
@@ -274,7 +276,6 @@ public final class TetrisBoard implements Board {
                 minCol = i + currX;
             }
         }
-        //System.out.println("Min col: " + minCol + " Drop height: " + columnHeights[minCol]);
         return columnHeights[minCol] - skirt[minCol - currX];
     }
 
