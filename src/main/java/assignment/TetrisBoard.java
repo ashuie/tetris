@@ -82,6 +82,14 @@ public final class TetrisBoard implements Board {
                 }
                 break;
             case COUNTERCLOCKWISE:
+                Piece newCounterClockwise = currPiece.counterclockwisePiece();
+                if(outOfBounds(newCounterClockwise, currPiecePosition, 0, 0)) {
+                    //try wall kicks
+                    lastResult = Result.NO_PIECE;
+                } else {
+                    currPiece = newCounterClockwise;
+                    lastResult = Result.SUCCESS;
+                }
                 break;
             case NOTHING:
             default:
@@ -124,9 +132,10 @@ public final class TetrisBoard implements Board {
     }*/
 
     // check this
+    // ACCOUNT FOR LEFT SKIRT
     private void updateColHeight() {
-        int currX = currPiecePosition.x;
-        for (int i = currX; i < currX + currPiece.getWidth(); i++) {
+        //int currX = currPiecePosition.x;
+        for (int i = 0; i < width; i++) {
             for (int j = height - 1; j >= 0; j--) {
                 if (grid[i][j] != null) {
                     columnHeights[i] = j + 1;
@@ -137,7 +146,7 @@ public final class TetrisBoard implements Board {
                 }
             }
         }
-        System.out.println("Column heights " + Arrays.toString(columnHeights));
+        //System.out.println("Column heights " + Arrays.toString(columnHeights));
       /* int currX = currPiecePosition.x;
         int currY = currPiecePosition.y;
         int changeHeight = 0;
@@ -194,8 +203,10 @@ public final class TetrisBoard implements Board {
         for(Point p : currP.getBody()) {
             int newPointX = p.x + offsetX + currPos.x;
             int newPointY = p.y + offsetY + currPos.y;
-            if(newPointX < 0 || newPointY < 0 || newPointX > width || newPointY > height
-            || grid[newPointX][newPointY] != null) {
+            System.out.println("new point at " + newPointX + ", " + newPointY);
+            if(newPointX < 0 || newPointY < 0 ||
+                    newPointX > width - 1 || newPointY > height
+                    || grid[newPointX][newPointY] != null) {
                 return true;
             }
         }
@@ -260,7 +271,7 @@ public final class TetrisBoard implements Board {
                 minCol = i + currX;
             }
         }
-        System.out.println("Min col: " + minCol + " Drop height: " + columnHeights[minCol]);
+        //System.out.println("Min col: " + minCol + " Drop height: " + columnHeights[minCol]);
         return columnHeights[minCol] - skirt[minCol - currX];
     }
 

@@ -61,14 +61,15 @@ public final class TetrisPiece implements Piece {
         }
         CircularLL.Node head = rotations.getHead();
         curr = head;
-        pieceNode = curr;
         do {
-            if (curr.data.equals(this)) {
-                pieceNode = curr;
-            }
+            curr.data.setNode(curr);
             curr.data.setRotations(rotations);
             curr = curr.next;
         } while (curr != head);
+    }
+
+    public void setNode(CircularLL.Node n) {
+        pieceNode = n;
     }
 
     public void generateSkirt(Point[] body) {
