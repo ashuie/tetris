@@ -51,6 +51,7 @@ public final class TetrisBoard implements Board {
                 tryHorizontalShift(1);
                 break;
             case DOWN:
+                // Place if going down is not possible
                 if(downOutOfBounds()) {
                     updateGridPlaceBlock();
                     lastAction = Action.DROP;
@@ -85,6 +86,7 @@ public final class TetrisBoard implements Board {
         Point[] currBody = currPiece.getBody();
         int currX = currPiecePosition.x;
         int currY = currPiecePosition.y;
+        // Set piece on grid on its current position after being dropped
         for (Point p : currBody) {
             rowWidths[currY + p.y]++;
             grid[currX + p.x][currY + p.y] = currPiece.getType();
@@ -95,10 +97,12 @@ public final class TetrisBoard implements Board {
 
     private void updateColHeight() {
         int currX = currPiecePosition.x;
+        // Check all columns of which the block placed occupies
         for (int i = currX; i < currX + currPiece.getWidth(); i++) {
             for (int j = height - 1; j >= 0; j--) {
                 if (i >= 0 && i < width && grid[i][j] != null) {
                     columnHeights[i] = j + 1;
+                    // Update max height as new max height encountered
                     if (columnHeights[i] > maxHeight) {
                         maxHeight = columnHeights[i];
                     }
@@ -108,7 +112,6 @@ public final class TetrisBoard implements Board {
         }
     }
 
-    // USE ROWS CLEARED
     private void clearRows() {
         HashSet<Integer> completeRows = new HashSet<>();
         for(int row = 0; row < height; row++) {
@@ -120,6 +123,7 @@ public final class TetrisBoard implements Board {
             return;
         }
         rowsCleared = completeRows.size();
+        // Modify the grid in place by adding only rows with an index not in complete rows
         int j = 0;
         for (int i = 0; i < height; i++) {
             if (!completeRows.contains(i)) {
@@ -130,12 +134,15 @@ public final class TetrisBoard implements Board {
                 j++;
             }
         }
+        // Decrement all column heights and max height by number of rows removed
         for (int m = 0; m < width; m++) {
             columnHeights[m] -= rowsCleared;
         }
+        maxHeight -= rowsCleared;
     }
 
     private boolean downOutOfBounds() {
+        // Check across piece width if space below is ground or occupied by a piece
         for(int i = 0; i < currPiece.getSkirt().length; ++i) {
             int sk = currPiece.getSkirt()[i];
             if(sk != Integer.MAX_VALUE) {
@@ -149,10 +156,10 @@ public final class TetrisBoard implements Board {
     }
 
     private boolean outOfBounds(Piece currP, Point currPos, int offsetX, int offsetY) {
+        // Offset all points in the body and check if new position would violate grid bounds
         for(Point p : currP.getBody()) {
             int newPointX = p.x + offsetX + currPos.x;
             int newPointY = p.y + offsetY + currPos.y;
-            //System.out.println("new point at " + newPointX + ", " + newPointY);
             if(newPointX < 0 || newPointY < 0 ||
                     newPointX > width - 1 || newPointY > height
                     || grid[newPointX][newPointY] != null) {
@@ -163,6 +170,7 @@ public final class TetrisBoard implements Board {
     }
 
     private void tryHorizontalShift(int xOffset) {
+        // Only shift the piece by horizontal offset if not out of bounds in new position
         if(outOfBounds(currPiece, currPiecePosition, xOffset, 0)) {
             //System.out.println(currPiecePosition);
             lastAction = Action.NOTHING;
@@ -175,6 +183,7 @@ public final class TetrisBoard implements Board {
     }
 
     public Result tryRotatePiece(int direction) {
+        // Try a rotation, then try a kick if out of bounds. Otherwise piece rotates successfully
         Piece rotatedPiece = (direction == CLOCKWISE_DIRECTION) ? currPiece.clockwisePiece() : currPiece.counterclockwisePiece();
         if(outOfBounds(rotatedPiece, currPiecePosition, 0, 0)) {
             return tryKick(direction, rotatedPiece);
@@ -187,13 +196,16 @@ public final class TetrisBoard implements Board {
 
     public Result tryKick(int direction, Piece rotatedPiece) {
         int rindex = currPiece.getRotationIndex();
+        // Get all point offset kicks based on direction and type of piece
         Point[] kicks = (rotatedPiece.getType() == Piece.PieceType.STICK) ?
                 ((direction == CLOCKWISE_DIRECTION) ? Piece.I_CLOCKWISE_WALL_KICKS[rindex]
                 : Piece.I_COUNTERCLOCKWISE_WALL_KICKS[rindex])
                 : ((direction == CLOCKWISE_DIRECTION) ? Piece.NORMAL_CLOCKWISE_WALL_KICKS[rindex]
                 : Piece.NORMAL_COUNTERCLOCKWISE_WALL_KICKS[rindex]);
+        // Use points in kicks as offset to check for in bounds
         for (Point p : kicks) {
             if (!outOfBounds(rotatedPiece, currPiecePosition, p.x, p.y)) {
+                // Update the piece with new rotation from first wall kick offset that's in bounds
                 currPiecePosition.setLocation(currPiecePosition.x + p.x, currPiecePosition.y + p.y);
                 currPiece = rotatedPiece;
                 lastAction = (direction == CLOCKWISE_DIRECTION) ? Action.CLOCKWISE : Action.COUNTERCLOCKWISE;
@@ -225,6 +237,7 @@ public final class TetrisBoard implements Board {
 
     @Override
     public void nextPiece(Piece p, Point spawnPosition) {
+        // Only allow new piece if its spawn position is in bounds;
         if(outOfBounds(p, spawnPosition, 0, 0)) {
             throw new IllegalArgumentException();
         }
@@ -240,6 +253,7 @@ public final class TetrisBoard implements Board {
             return false;
         }
         TetrisBoard otherBoard = (TetrisBoard) other;
+        // Equality iff equal grid and equal current piece
         boolean equalGrid = this.grid == otherBoard.getFullGrid();
         boolean equalCurrPiece = this.currPiece == otherBoard.getCurrentPiece() &&
                 this.currPiecePosition == otherBoard.getCurrentPiecePosition();
@@ -275,6 +289,7 @@ public final class TetrisBoard implements Board {
             if (skirt[i] == Integer.MAX_VALUE) {
                 continue;
             }
+            // Find minimum distance between the piece and the current column height
             int nextHeight = currY + skirt[i] - columnHeights[currX + i];
             if(minVal > nextHeight) {
                 minVal = nextHeight;
