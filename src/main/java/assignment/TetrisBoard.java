@@ -1,6 +1,7 @@
 package assignment;
 
 import java.awt.*;
+import java.util.Arrays;
 import java.util.HashSet;
 
 /**
@@ -96,7 +97,7 @@ public final class TetrisBoard implements Board {
         int currX = currPiecePosition.x;
         for (int i = currX; i < currX + currPiece.getWidth(); i++) {
             for (int j = height - 1; j >= 0; j--) {
-                if (i > 0 && i < width && grid[i][j] != null) {
+                if (i >= 0 && i < width && grid[i][j] != null) {
                     columnHeights[i] = j + 1;
                     if (columnHeights[i] > maxHeight) {
                         maxHeight = columnHeights[i];
@@ -163,6 +164,7 @@ public final class TetrisBoard implements Board {
 
     private void tryHorizontalShift(int xOffset) {
         if(outOfBounds(currPiece, currPiecePosition, xOffset, 0)) {
+            //System.out.println(currPiecePosition);
             lastAction = Action.NOTHING;
             lastResult = Result.OUT_BOUNDS;
         } else {
@@ -206,9 +208,12 @@ public final class TetrisBoard implements Board {
     public Board testMove(Action act) {
         TetrisBoard testBoard = new TetrisBoard(width, height);
         testBoard.setGrid(this.getFullGrid());
+        testBoard.setColumnHeights(this.columnHeights);
+        testBoard.setRowWidths(this.rowWidths);
         testBoard.setCurrentPiece(currPiece);
         testBoard.setCurrentPiecePosition(currPiecePosition);
         testBoard.move(act);
+        //System.out.println(testBoard.getCurrentPiecePosition());
         return testBoard;
     }
 
@@ -293,7 +298,23 @@ public final class TetrisBoard implements Board {
     }
 
     public void setGrid(Piece.PieceType[][] g) {
-        grid = g;
+        for(int i = 0; i < g.length; ++i) {
+            for(int j = 0; j < g[i].length; ++j) {
+                grid[i][j] = g[i][j];
+            }
+        }
+    }
+
+    public void setColumnHeights(int[] colHeights) {
+        for(int i = 0; i < colHeights.length; ++i) {
+            columnHeights[i] = colHeights[i];
+        }
+    }
+
+    public void setRowWidths(int[] rWidths) {
+        for(int i = 0; i < rWidths.length; ++i) {
+            rowWidths[i] = rWidths[i];
+        }
     }
 
     public void setCurrentPiece(Piece p) {
@@ -301,6 +322,6 @@ public final class TetrisBoard implements Board {
     }
 
     public void setCurrentPiecePosition(Point p) {
-        currPiecePosition = p;
+        currPiecePosition = new Point(p.x, p.y);
     }
 }
