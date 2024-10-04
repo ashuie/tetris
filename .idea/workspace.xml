@@ -5,12 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="33ba9eb7-48e3-45c0-9431-f2a6a30e658a" name="Changes" comment="Brain working">
+      <change afterPath="$PROJECT_DIR$/src/test/java/assignment/TetrisBoardTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prog4.iml" beforeDir="false" afterPath="$PROJECT_DIR$/prog4.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/assignment/TetrisBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/assignment/TetrisBoard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/assignment/TetrisPiece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/assignment/TetrisPiece.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/assignment/TetrisPieceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/assignment/TetrisPieceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -41,7 +53,15 @@
     "Application.JBrainTetris.executor": "Run",
     "Application.JTetris.executor": "Run",
     "Application.TetrisPieceTest.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.TetrisBoardTest.executor": "Run",
+    "JUnit.TetrisBoardTest.testBoardSpawnPiece.executor": "Debug",
+    "JUnit.TetrisPieceTest.executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "TestNG.TetrisPieceTest.executor": "Run",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/ashle/IdeaProjects/prog4",
@@ -50,13 +70,13 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
+    "project.structure.last.edited": "SDKs",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.JBrainTetris">
+  <component name="RunManager">
     <configuration name="JBrainTetris" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="assignment.JBrainTetris" />
       <module name="prog4" />
@@ -133,6 +153,7 @@
       <workItem from="1727880020312" duration="1385000" />
       <workItem from="1727881689977" duration="2348000" />
       <workItem from="1727891040358" duration="8923000" />
+      <workItem from="1728017051386" duration="2160000" />
     </task>
     <task id="LOCAL-00001" summary="initial">
       <option name="closed" value="true" />
@@ -195,5 +216,16 @@
     <MESSAGE value="WOW" />
     <MESSAGE value="more" />
     <option name="LAST_COMMIT_MESSAGE" value="more" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/assignment/Piece.java</url>
+          <line>30</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

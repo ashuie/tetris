@@ -34,6 +34,7 @@ public final class TetrisPiece implements Piece {
         computeRotations(body);
     }
 
+
     public TetrisPiece(PieceType type, int rindex, Point[] body) {
         this.type = type;
         this.body = body;
@@ -98,15 +99,12 @@ public final class TetrisPiece implements Piece {
 
     @Override
     public Piece clockwisePiece() {
-        System.out.println("PIECENODE: " + pieceNode);
         return pieceNode.next.data;
-        // TODO: Implement me.
     }
 
     @Override
     public Piece counterclockwisePiece() {
         return pieceNode.prev.data;
-        // TODO: Implement me.
     }
 
     @Override

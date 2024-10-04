@@ -1,7 +1,6 @@
 package assignment;
 
 import java.awt.*;
-import java.util.Arrays;
 import java.util.HashSet;
 
 /**
@@ -28,21 +27,24 @@ public final class TetrisBoard implements Board {
 
     // JTetris will use this constructor
     public TetrisBoard(int width, int height) {
-        this.width = width;
-        this.height = height;
+        this.width = Math.max(width, 0);
+        this.height = Math.max(height, 0);
         currPiece = null;
         currPiecePosition = null;
         lastAction = Action.NOTHING;
         lastResult = Result.NO_PIECE;
         rowsCleared = 0;
         maxHeight = 0;
-        columnHeights = new int[width];
-        rowWidths = new int[height];
-        grid = new Piece.PieceType[width][height];
+        columnHeights = new int[this.width];
+        rowWidths = new int[this.height];
+        grid = new Piece.PieceType[this.width][this.height];
     }
 
     @Override
     public Result move(Action act) {
+        if (currPiece == null || currPiecePosition == null) {
+            return Result.NO_PIECE;
+        }
         switch (act) {
             case LEFT:
                 tryHorizontalShift(-1);
@@ -52,7 +54,7 @@ public final class TetrisBoard implements Board {
                 break;
             case DOWN:
                 // Place if going down is not possible
-                if(downOutOfBounds()) {
+                if(downOutOfBounds(currPiecePosition.y)) {
                     updateGridPlaceBlock();
                     lastAction = Action.DROP;
                     lastResult = Result.PLACE;
@@ -141,13 +143,13 @@ public final class TetrisBoard implements Board {
         maxHeight -= rowsCleared;
     }
 
-    private boolean downOutOfBounds() {
+    private boolean downOutOfBounds(int yHeight) {
         // Check across piece width if space below is ground or occupied by a piece
         for(int i = 0; i < currPiece.getSkirt().length; ++i) {
             int sk = currPiece.getSkirt()[i];
             if(sk != Integer.MAX_VALUE) {
-                if(currPiecePosition.y + sk - 1 < 0 ||
-                        grid[currPiecePosition.x + i][currPiecePosition.y + sk - 1] != null) {
+                if(yHeight + sk - 1 < 0 ||
+                        grid[currPiecePosition.x + i][yHeight + sk - 1] != null) {
                     return true;
                 }
             }
@@ -225,7 +227,6 @@ public final class TetrisBoard implements Board {
         testBoard.setCurrentPiece(currPiece);
         testBoard.setCurrentPiecePosition(currPiecePosition);
         testBoard.move(act);
-        //System.out.println(testBoard.getCurrentPiecePosition());
         return testBoard;
     }
 
@@ -280,7 +281,12 @@ public final class TetrisBoard implements Board {
 
     @Override
     public int dropHeight(Piece piece, int x) {
-        int minVal = Integer.MAX_VALUE;
+        int dropHeightY = currPiecePosition.y;
+        while (!downOutOfBounds(dropHeightY)) {
+            dropHeightY--;
+        }
+        return dropHeightY;
+        /*int minVal = Integer.MAX_VALUE;
         int minCol = 0;
         int currX = currPiecePosition.x;
         int currY = currPiecePosition.y;
@@ -296,7 +302,7 @@ public final class TetrisBoard implements Board {
                 minCol = i + currX;
             }
         }
-        return columnHeights[minCol] - skirt[minCol - currX];
+        return columnHeights[minCol] - skirt[minCol - currX];*/
     }
 
     @Override
