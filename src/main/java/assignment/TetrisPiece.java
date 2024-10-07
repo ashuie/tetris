@@ -97,6 +97,10 @@ public final class TetrisPiece implements Piece {
         return rotationIndex;
     }
 
+    public void setRotationIndex(int rindex) {
+        rotationIndex = rindex;
+    }
+
     @Override
     public Piece clockwisePiece() {
         return pieceNode.next.data;
@@ -137,5 +141,13 @@ public final class TetrisPiece implements Piece {
         if(!(other instanceof TetrisPiece)) return false;
         TetrisPiece otherPiece = (TetrisPiece) other;
         return this.rotationIndex == otherPiece.rotationIndex && this.type == otherPiece.type;
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (Point p : body) {
+            sb.append("( ").append(p.x).append(", ").append(p.y).append(" )   ");
+        }
+        return sb.toString();
     }
 }

@@ -111,7 +111,7 @@ public interface Piece {
         // 0->L 	( 0, 0) 	(+1, 0) 	(+1,+1) 	( 0,-2) 	(+1,-2)
         new Point[] { new Point(0, 0), new Point(1, 0), new Point(1, 1), new Point(0, -2), new Point(1, -2) },
         // R->0 	( 0, 0) 	(+1, 0) 	(+1,-1) 	( 0,+2) 	(+1,+2)
-        new Point[] { new Point(0, 0), new Point(1, 0), new Point(-1, -1), new Point(0, 2), new Point(1, 2) },
+        new Point[] { new Point(0, 0), new Point(1, 0), new Point(1, -1), new Point(0, 2), new Point(1, 2) },
         // 2->R 	( 0, 0) 	(-1, 0) 	(-1,+1) 	( 0,-2) 	(-1,-2)
         new Point[] { new Point(0, 0), new Point(-1, 0), new Point(-1, 1), new Point(0, -2),  new Point(-1, -2) },
         // L->2 	( 0, 0) 	(-1, 0) 	(-1,-1) 	( 0,+2) 	(-1,+2)

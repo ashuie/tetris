@@ -45,6 +45,7 @@ public final class TetrisBoard implements Board {
         if (currPiece == null || currPiecePosition == null) {
             return Result.NO_PIECE;
         }
+        lastAction = act;
         switch (act) {
             case LEFT:
                 tryHorizontalShift(-1);
@@ -56,18 +57,15 @@ public final class TetrisBoard implements Board {
                 // Place if going down is not possible
                 if(downOutOfBounds(currPiecePosition.y)) {
                     updateGridPlaceBlock();
-                    lastAction = Action.DROP;
                     lastResult = Result.PLACE;
                 } else {
                     currPiecePosition.setLocation(currPiecePosition.x, currPiecePosition.y - 1);
-                    lastAction = Action.DOWN;
                     lastResult = Result.SUCCESS;
                 }
                 break;
             case DROP:
                 currPiecePosition.setLocation(currPiecePosition.x, dropHeight(currPiece, currPiecePosition.x));
                 updateGridPlaceBlock();
-                lastAction = Action.DROP;
                 lastResult = Result.PLACE;
                 break;
             case CLOCKWISE:
@@ -78,7 +76,6 @@ public final class TetrisBoard implements Board {
                 break;
             case NOTHING:
             default:
-                lastAction = Action.NOTHING;
                 lastResult = Result.NO_PIECE;
         }
         return lastResult;
@@ -163,7 +160,7 @@ public final class TetrisBoard implements Board {
             int newPointX = p.x + offsetX + currPos.x;
             int newPointY = p.y + offsetY + currPos.y;
             if(newPointX < 0 || newPointY < 0 ||
-                    newPointX > width - 1 || newPointY > height
+                    newPointX > width - 1 || newPointY > height - 1
                     || grid[newPointX][newPointY] != null) {
                 return true;
             }
@@ -239,12 +236,12 @@ public final class TetrisBoard implements Board {
     @Override
     public void nextPiece(Piece p, Point spawnPosition) {
         // Only allow new piece if its spawn position is in bounds;
-        if(outOfBounds(p, spawnPosition, 0, 0)) {
+        if(p == null || outOfBounds(p, spawnPosition, 0, 0)) {
             throw new IllegalArgumentException();
         }
         else {
             currPiece = p;
-            currPiecePosition = spawnPosition;
+            currPiecePosition = new Point(spawnPosition.x, spawnPosition.y);
         }
     }
 
@@ -308,8 +305,17 @@ public final class TetrisBoard implements Board {
     @Override
     public int getColumnHeight(int x) { return columnHeights[x]; }
 
+    public int[] getAllColumnHeights() {
+        return columnHeights;
+    }
+
     @Override
     public int getRowWidth(int y) { return rowWidths[y]; }
+
+    public int[] getAllRowWidths() {
+        return rowWidths;
+    }
+
 
     @Override
     public Piece.PieceType getGrid(int x, int y) { return grid[x][y]; }
