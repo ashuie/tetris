@@ -4,12 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="33ba9eb7-48e3-45c0-9431-f2a6a30e658a" name="Changes" comment="fix drop height?!/!?!?">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/assignment/Piece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/assignment/Piece.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/assignment/TetrisBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/assignment/TetrisBoard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/assignment/TetrisPiece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/assignment/TetrisPiece.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/assignment/TetrisBoardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/assignment/TetrisBoardTest.java" afterDir="false" />
+    <list default="true" id="33ba9eb7-48e3-45c0-9431-f2a6a30e658a" name="Changes" comment="Brain working">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/junit_jupiter.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/assignment/BigBrain.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/assignment/RotationBrain.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/assignment/TestBrain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prog4.iml" beforeDir="false" afterPath="$PROJECT_DIR$/prog4.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/assignment/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/assignment/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/assignment/JBrainTetris.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/assignment/JBrainTetris.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,35 +49,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.JBrainTetris.executor": "Run",
-    "Application.JTetris.executor": "Run",
-    "Application.TetrisPieceTest.executor": "Run",
-    "Downloaded.Files.Path.Enabled": "false",
-    "JUnit.TetrisBoardTest.executor": "Run",
-    "JUnit.TetrisBoardTest.testBoardSpawnPiece.executor": "Debug",
-    "JUnit.TetrisPieceTest.executor": "Run",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "TestNG.TetrisPieceTest.executor": "Run",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/ashle/IdeaProjects/prog4",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "SDKs",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.JBrainTetris.executor&quot;: &quot;Run&quot;,
+    &quot;Application.JTetris.executor&quot;: &quot;Run&quot;,
+    &quot;Application.TetrisPieceTest.executor&quot;: &quot;Run&quot;,
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;JUnit.TetrisBoardTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TetrisBoardTest.testBoardSpawnPiece.executor&quot;: &quot;Debug&quot;,
+    &quot;JUnit.TetrisPieceTest.executor&quot;: &quot;Run&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;TestNG.TetrisPieceTest.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/ashle/IdeaProjects/prog4&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
-  <component name="RunManager">
+}</component>
+  <component name="RunManager" selected="Application.JBrainTetris">
     <configuration name="JBrainTetris" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="assignment.JBrainTetris" />
       <module name="prog4" />
