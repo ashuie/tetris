@@ -28,11 +28,6 @@ public class TestBrain implements Brain{
         }
 
         // We want to return the first move on the way to the best Board
-        if(firstMoves.get(bestIndex) == Board.Action.DROP || firstMoves.get(bestIndex) == Board.Action.TEST_DROP_LEFT ||
-                firstMoves.get(bestIndex) == Board.Action.TEST_DROP_CCW || firstMoves.get(bestIndex) == Board.Action.TEST_DROP_RIGHT ||
-                firstMoves.get(bestIndex) == Board.Action.TEST_DROP_CW) {
-            System.out.println(scoreBoard(options.get(bestIndex)));
-        }
         return firstMoves.get(bestIndex);
     }
 
@@ -85,6 +80,7 @@ public class TestBrain implements Brain{
             left.move(Board.Action.CLOCKWISE);
         }
 
+        // Similarly, we add all the places to the right we can drop
         Board right = currentBoard.testMove(Board.Action.RIGHT);
 
         for(int numOrientations = 0; numOrientations < 4; numOrientations++) {
@@ -116,20 +112,24 @@ public class TestBrain implements Brain{
      * we're going to give higher scores to Boards with
      * MaxHeights close to 0.
      */
+
     public int scoreBoard(Board newBoard) {
+        // Set up constant weights for scoring
         final int columnDisparityConstant = 10;
         int columnDisparityScore = 0;
 
         final int stuckSquareConstant = 90;
         int stuckSquareScore = 0;
 
+        // Check the bumpiness of the board
         int prevCol = newBoard.getColumnHeight(0);
         for(int i = 1; i < newBoard.getWidth(); ++i) {
-            columnDisparityScore += newBoard.getColumnHeight(i) - prevCol > 1 ? 5 : 0;
-            columnDisparityScore += newBoard.getColumnHeight(i) - prevCol > 2 ? 10 : 0;
+            columnDisparityScore += Math.abs(newBoard.getColumnHeight(i) - prevCol) > 1 ? 2 : 0;
+            columnDisparityScore += Math.abs(newBoard.getColumnHeight(i) - prevCol) > 2 ? 5 : 0;
             prevCol = newBoard.getColumnHeight(i);
         }
 
+        // Count how many holes there are on the board
         for(int i = 0; i < newBoard.getWidth(); ++i) {
             for(int j = 0; j < newBoard.getHeight(); ++j) {
                 if(newBoard.getGrid(i, j) == null && newBoard.getColumnHeight(i) > j) {
@@ -138,18 +138,23 @@ public class TestBrain implements Brain{
             }
         }
 
-        if(newBoard.getMaxHeight() > 20) {
-            return 1;
+        // If the board is lost, then make sure we don't pick it
+        if(getMaxHeight(newBoard) > 20) {
+            return Integer.MIN_VALUE;
         }
 
-        int score = 10000 - (newBoard.getMaxHeight() * 20) - (columnDisparityConstant * columnDisparityScore)
-                - (stuckSquareConstant * stuckSquareScore);
+        int score = 10000
+                - (getMaxHeight(newBoard) * 20)
+                - (columnDisparityConstant * columnDisparityScore)
+                - (stuckSquareConstant * stuckSquareScore)
+                + 50 * newBoard.getRowsCleared();
 
         //System.out.println(columnDisparityScore);
         return score;
     }
 
-    private boolean outOfBounds(Board board, int x, int y) {
+    // Check if a placement is in bounds
+    public static boolean outOfBounds(Board board, int x, int y) {
         for(Point p : board.getCurrentPiece().getBody()) {
             if(x < 0 || y < 0 ||
                     x > board.getWidth() - 1 || y > board.getHeight()) {
@@ -157,5 +162,13 @@ public class TestBrain implements Brain{
             }
         }
         return false;
+    }
+
+    private int getMaxHeight(Board board) {
+        int max = 0;
+        for(int i = 0; i < board.getWidth(); ++i) {
+            max = Math.max(max, board.getColumnHeight(i));
+        }
+        return max;
     }
 }
