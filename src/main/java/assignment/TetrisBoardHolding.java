@@ -2,13 +2,14 @@ package assignment;
 
 import java.awt.*;
 import java.util.HashSet;
+import java.util.Random;
 
 /**
  * Represents a Tetris board -- essentially a 2D grid of piece types (or nulls). Supports
  * tetris pieces and row clearing.  Does not do any drawing or have any idea of
  * pixels. Instead, just represents the abstract 2D board.
  */
-public final class TetrisBoard implements Board {
+public final class TetrisBoardHolding implements Board {
 
     public static final int CLOCKWISE_DIRECTION = 1;
     public static final int COUNTERCLOCKWISE_DIRECTION = 0;
@@ -17,6 +18,7 @@ public final class TetrisBoard implements Board {
     private final int width;
     private final int height;
     private Piece currPiece;
+    private Piece heldPiece;
     private Point currPiecePosition;
     private Result lastResult;
     private Action lastAction;
@@ -25,9 +27,19 @@ public final class TetrisBoard implements Board {
     private int[] columnHeights;
     private int[] rowWidths;
     Piece.PieceType[][] grid;
+    public final Piece[] PIECES = new Piece[] {
+            new TetrisPiece(Piece.PieceType.STICK),
+            new TetrisPiece(Piece.PieceType.SQUARE),
+            new TetrisPiece(Piece.PieceType.T),
+            new TetrisPiece(Piece.PieceType.LEFT_L),
+            new TetrisPiece(Piece.PieceType.RIGHT_L),
+            new TetrisPiece(Piece.PieceType.LEFT_DOG),
+            new TetrisPiece(Piece.PieceType.RIGHT_DOG)
+    };
+    private Random random = new Random();
 
     // JTetris will use this constructor
-    public TetrisBoard(int width, int height) {
+    public TetrisBoardHolding(int width, int height) {
         this.width = Math.max(width, 0);
         this.height = Math.max(height, 0);
         currPiece = null;
@@ -39,12 +51,12 @@ public final class TetrisBoard implements Board {
         columnHeights = new int[this.width];
         rowWidths = new int[this.height];
         grid = new Piece.PieceType[this.width][this.height];
+        heldPiece = PIECES[random.nextInt(PIECES.length)];
     }
 
     @Override
     public Result move(Action act) {
-        rowsCleared = 0;
-        if (act == null || currPiece == null || currPiecePosition == null || !(currPiece instanceof TetrisPiece)) {
+        if (currPiece == null || currPiecePosition == null) {
             return Result.NO_PIECE;
         }
         lastAction = act;
@@ -99,6 +111,13 @@ public final class TetrisBoard implements Board {
                 break;
             case COUNTERCLOCKWISE:
                 lastResult = tryRotatePiece(COUNTERCLOCKWISE_DIRECTION);
+                break;
+            case HOLD:
+                Piece temp = new TetrisPiece(currPiece.getType());
+                this.nextPiece(heldPiece, new Point(width / 2 - heldPiece.getWidth() / 2, this.height - JTetrisHolding.TOP_SPACE));
+                heldPiece = temp;
+                //System.out.println(heldPiece);
+                lastResult = Result.SUCCESS;
                 break;
             case NOTHING:
             default:
@@ -159,11 +178,7 @@ public final class TetrisBoard implements Board {
                 j++;
             }
         }
-        // Recalculate column heights due to potential hole behavior
-        for (int k = 0; k < width; k++) {
-            columnHeights[k] = 0;
-        }
-        maxHeight = 0;
+        // Decrement all column heights and max height by number of rows removed
         updateColHeight(0, width);
     }
 
@@ -225,7 +240,7 @@ public final class TetrisBoard implements Board {
         // Get all point offset kicks based on direction and type of piece
         Point[] kicks = (rotatedPiece.getType() == Piece.PieceType.STICK) ?
                 ((direction == CLOCKWISE_DIRECTION) ? Piece.I_CLOCKWISE_WALL_KICKS[rindex]
-                : Piece.I_COUNTERCLOCKWISE_WALL_KICKS[rindex])
+                        : Piece.I_COUNTERCLOCKWISE_WALL_KICKS[rindex])
                 : ((direction == CLOCKWISE_DIRECTION) ? Piece.NORMAL_CLOCKWISE_WALL_KICKS[rindex]
                 : Piece.NORMAL_COUNTERCLOCKWISE_WALL_KICKS[rindex]);
         // Use points in kicks as offset to check for in bounds
@@ -363,5 +378,9 @@ public final class TetrisBoard implements Board {
 
     public void setCurrentPiecePosition(Point p) {
         currPiecePosition = new Point(p.x, p.y);
+    }
+
+    public Piece getHeldPiece() {
+        return heldPiece;
     }
 }

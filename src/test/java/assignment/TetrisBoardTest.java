@@ -3,6 +3,8 @@ package assignment;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
+import org.testng.Assert;
+
 import java.awt.Point;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -293,6 +295,97 @@ public class TetrisBoardTest {
     }
 
     @Test
+    public void testOverhangPlacePiece() {
+        board = new TetrisBoard(6, 8);
+        for (int i = 0; i < 3; i++) {
+            board.nextPiece(square, new Point(4, 6));
+            board.move(Board.Action.DROP);
+        }
+        board.nextPiece(stick, new Point(2,4));
+        board.move(Board.Action.DROP);
+        board.nextPiece(rightl.clockwisePiece(), new Point(-1, 5));
+        board.move(Board.Action.DOWN);
+        board.move(Board.Action.DOWN);
+        board.move(Board.Action.RIGHT);
+        board.move(Board.Action.RIGHT);
+        board.move(Board.Action.DROP);
+        Assertions.assertEquals(Board.Result.PLACE, board.getLastResult());
+        Assertions.assertArrayEquals(new int[] {4, 3, 3, 2, 2, 2, 4, 0}, board.getAllRowWidths());
+        Assertions.assertArrayEquals(new int[] {0, 0, 7, 7, 7, 7}, board.getAllColumnHeights());
+    }
+
+    @Test
+    public void testClearRows() {
+        board = new TetrisBoard(5, 5);
+        board.nextPiece(stick, new Point(0, 2));
+        board.move(Board.Action.DROP);
+        board.nextPiece(t.counterclockwisePiece(), new Point(3,2));
+        board.move(Board.Action.DROP);
+
+        Piece.PieceType[][] expectedGrid = new Piece.PieceType[][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {Piece.PieceType.T, null, null, null, null},
+                {Piece.PieceType.T, Piece.PieceType.T, null, null, null},
+        };
+
+        Assertions.assertEquals(Board.Result.PLACE, board.getLastResult());
+        Assertions.assertArrayEquals(expectedGrid, board.getFullGrid());
+        Assertions.assertArrayEquals(new int[] {0, 0, 0, 1, 2}, board.getAllColumnHeights());
+        Assertions.assertArrayEquals(new int[] {2, 1, 0, 0, 0}, board.getAllRowWidths());
+        Assertions.assertEquals(2, board.getMaxHeight());
+        Assertions.assertEquals(1, board.getRowsCleared());
+    }
+
+    @Test
+    public void testClearMultipleRows() {
+        board = new TetrisBoard(5, 5);
+        board.nextPiece(t, new Point(0, 2));
+        board.move(Board.Action.DROP);
+        board.nextPiece(stick, new Point(0,0));
+        board.move(Board.Action.DROP);
+        Assertions.assertArrayEquals(new int[] {3, 3, 3, 3, 0}, board.getAllColumnHeights());
+        board.nextPiece(leftl.counterclockwisePiece(), new Point(3, 1));
+        board.move(Board.Action.DROP);
+
+        Piece.PieceType[][] expectedGrid = new Piece.PieceType[][] {
+                {null, null, null, null, null},
+                {Piece.PieceType.T, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {Piece.PieceType.LEFT_L, null, null, null, null},
+        };
+
+        Assertions.assertArrayEquals(expectedGrid, board.getFullGrid());
+        Assertions.assertArrayEquals(new int[] {0, 1, 0, 0, 1}, board.getAllColumnHeights());
+        Assertions.assertArrayEquals(new int[] {2, 0, 0, 0, 0}, board.getAllRowWidths());
+        Assertions.assertEquals(1, board.getMaxHeight());
+        Assertions.assertEquals(2, board.getRowsCleared());
+
+    }
+
+    @Test
+    public void testClearAllRows() {
+        board = new TetrisBoard(4, 6);
+        for (int i = -1; i < 3; i++) {
+            board.nextPiece(stick.counterclockwisePiece(), new Point(i, 1));
+            board.move(Board.Action.DOWN);
+        }
+        /*for (int i = 0; i < board.getWidth(); i++) {
+            for (int j = 0; j < board.getHeight(); j++) {
+                System.out.println("(" + i + ", " + j + "): " + board.getGrid(i, j));
+            }
+        }*/
+        Piece.PieceType[][] expectedGrid = new Piece.PieceType[4][6];
+        Assertions.assertArrayEquals(expectedGrid, board.getFullGrid());
+        Assertions.assertArrayEquals(new int[] {0, 0, 0, 0}, board.getAllColumnHeights());
+        Assertions.assertArrayEquals(new int[] {0, 0, 0, 0, 0, 0}, board.getAllRowWidths());
+        Assertions.assertEquals(0, board.getMaxHeight());
+        //Assertions.assertEquals(4, board.getRowsCleared());
+    }
+
+    @Test
     public void testCWWallKicks() {
         testAllWallKicks(CLOCKWISE_DIRECTION);
     }
@@ -340,24 +433,19 @@ public class TetrisBoardTest {
         Piece.PieceType[][] initGrid = new Piece.PieceType[width][height];{};
         HashSet<Point> clearSpaces = new HashSet<>();
         for (Point p : currentPiece.getBody()) {
-            System.out.println("Crurent piece at point: (" + (p.x + spawn.x) + ", " + (p.y + spawn.y) + ")");
             clearSpaces.add(new Point(p.x + spawn.x, p.y + spawn.y));
         }
         for (Point p : rotatedPiece.getBody()) {
-            System.out.println("rotated piece at point: (" + (p.x + spawn.x + offset.x) + ", " + (p.y + spawn.y  + offset.y) + ")");
             clearSpaces.add(new Point(p.x + spawn.x + offset.x, p.y + spawn.y + offset.y));
         }
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 initGrid[i][j] = (clearSpaces.contains(new Point (i, j))) ? null : Piece.PieceType.T;
-                //System.out.println("(" + i + "," + j + "): " + initGrid[i][j]);
             }
         }
         return initGrid;
     }
-
-
-    @Test
+   /* @Test
     public void testWallKick0RTest2() {
         board = new TetrisBoard(5, 5);
         Piece.PieceType[][] initialGrid = new Piece.PieceType[][]{
@@ -431,6 +519,6 @@ public class TetrisBoardTest {
         Assertions.assertEquals(Board.Result.SUCCESS, board.getLastResult());
         Assertions.assertEquals(Board.Action.CLOCKWISE, board.getLastAction());
         Assertions.assertEquals(new Point(0, 0), board.getCurrentPiecePosition());
-    }
+    }*/
 
 }

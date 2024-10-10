@@ -4,14 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="33ba9eb7-48e3-45c0-9431-f2a6a30e658a" name="Changes" comment="Brain working">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/junit_jupiter.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/assignment/BigBrain.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/assignment/RotationBrain.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/assignment/TestBrain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prog4.iml" beforeDir="false" afterPath="$PROJECT_DIR$/prog4.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/assignment/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/assignment/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/assignment/JBrainTetris.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/assignment/JBrainTetris.java" afterDir="false" />
+    <list default="true" id="33ba9eb7-48e3-45c0-9431-f2a6a30e658a" name="Changes" comment="testttttting">
+      <change afterPath="$PROJECT_DIR$/src/main/java/assignment/JTetrisHolding.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/assignment/TetrisBoardHolding.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_1_2024_4_25_PM_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_1_2024_4_25_PM__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/assignment/JTetris.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/assignment/JTetris.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/assignment/TetrisBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/assignment/TetrisBoard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/assignment/TetrisBoardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/assignment/TetrisBoardTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,6 +54,7 @@
   &quot;keyToString&quot;: {
     &quot;Application.JBrainTetris.executor&quot;: &quot;Run&quot;,
     &quot;Application.JTetris.executor&quot;: &quot;Run&quot;,
+    &quot;Application.JTetrisHolding.executor&quot;: &quot;Run&quot;,
     &quot;Application.TetrisPieceTest.executor&quot;: &quot;Run&quot;,
     &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
     &quot;JUnit.TetrisBoardTest.executor&quot;: &quot;Run&quot;,
@@ -77,7 +79,7 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Application.JBrainTetris">
+  <component name="RunManager">
     <configuration name="JBrainTetris" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="assignment.JBrainTetris" />
       <module name="prog4" />
@@ -155,6 +157,8 @@
       <workItem from="1727881689977" duration="2348000" />
       <workItem from="1727891040358" duration="8923000" />
       <workItem from="1728017051386" duration="30771000" />
+      <workItem from="1728419784623" duration="5981000" />
+      <workItem from="1728486472970" duration="9269000" />
     </task>
     <task id="LOCAL-00001" summary="initial">
       <option name="closed" value="true" />
@@ -226,16 +230,5 @@
     <MESSAGE value="more" />
     <MESSAGE value="fix drop height?!/!?!?" />
     <option name="LAST_COMMIT_MESSAGE" value="fix drop height?!/!?!?" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/assignment/Piece.java</url>
-          <line>30</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
