@@ -6,8 +6,6 @@ import java.util.ArrayList;
 public class TestBrain implements Brain{
     private ArrayList<Board> options;
     private ArrayList<Board.Action> firstMoves;
-    private ArrayList<Board.Action> firstMoveTestDrop;
-    private ArrayList<Board.Action> secondMoves;
 
     public Board.Action nextMove(Board currentBoard) {
         // Fill the our options array with versions of the new Board
