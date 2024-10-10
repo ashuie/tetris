@@ -4,14 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="33ba9eb7-48e3-45c0-9431-f2a6a30e658a" name="Changes" comment="New bot">
-      <change afterPath="$PROJECT_DIR$/src/main/java/assignment/GradientDescentBrain.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/assignment/TetrisBrainTest.java" afterDir="false" />
+    <list default="true" id="33ba9eb7-48e3-45c0-9431-f2a6a30e658a" name="Changes" comment="testttttting">
+      <change afterPath="$PROJECT_DIR$/src/main/java/assignment/JTetrisHolding.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/assignment/TetrisBoardHolding.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_1_2024_4_25_PM_[Changes]/shelved.patch" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_1_2024_4_25_PM__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prog4.iml" beforeDir="false" afterPath="$PROJECT_DIR$/prog4.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/assignment/TestBrain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/assignment/TestBrain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/assignment/JTetris.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/assignment/JTetris.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/assignment/TetrisBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/assignment/TetrisBoard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/assignment/TetrisBoardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/assignment/TetrisBoardTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +38,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/ashuie/tetris&quot;,
-    &quot;accountId&quot;: &quot;a5a51a1e-2f62-44fa-bc37-28146cc77216&quot;
+    &quot;accountId&quot;: &quot;687c8076-6a0b-4851-90a0-a6a6344a5292&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -53,14 +54,11 @@
   &quot;keyToString&quot;: {
     &quot;Application.JBrainTetris.executor&quot;: &quot;Run&quot;,
     &quot;Application.JTetris.executor&quot;: &quot;Run&quot;,
+    &quot;Application.JTetrisHolding.executor&quot;: &quot;Run&quot;,
     &quot;Application.TetrisPieceTest.executor&quot;: &quot;Run&quot;,
     &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;JUnit.All in prog4.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.TetrisBoardTest.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.TetrisBoardTest.testBoardSpawnPiece.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.TetrisBrainTest.criticalMoveTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TetrisBrainTest.testDecision.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TetrisBrainTest.testMoveValidity.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.TetrisPieceTest.executor&quot;: &quot;Run&quot;,
     &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
     &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
@@ -81,7 +79,7 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Application.JBrainTetris">
+  <component name="RunManager">
     <configuration name="JBrainTetris" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="assignment.JBrainTetris" />
       <module name="prog4" />
@@ -108,15 +106,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="All in prog4" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="prog4" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TetrisBrainTest.criticalMoveTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TetrisPieceTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="assignment.TetrisPieceTest" />
       <module name="prog4" />
       <extension name="coverage">
         <pattern>
@@ -124,42 +115,6 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="assignment" />
-      <option name="MAIN_CLASS_NAME" value="assignment.TetrisBrainTest" />
-      <option name="METHOD_NAME" value="criticalMoveTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TetrisBrainTest.testDecision" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="prog4" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="assignment.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="assignment" />
-      <option name="MAIN_CLASS_NAME" value="assignment.TetrisBrainTest" />
-      <option name="METHOD_NAME" value="testDecision" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TetrisBrainTest.testMoveValidity" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="prog4" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="assignment.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="assignment" />
-      <option name="MAIN_CLASS_NAME" value="assignment.TetrisBrainTest" />
-      <option name="METHOD_NAME" value="testMoveValidity" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -167,12 +122,17 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.JBrainTetris" />
-        <item itemvalue="JUnit.TetrisBrainTest.criticalMoveTest" />
-        <item itemvalue="JUnit.TetrisBrainTest.testDecision" />
-        <item itemvalue="JUnit.TetrisBrainTest.testMoveValidity" />
-        <item itemvalue="JUnit.All in prog4" />
+        <item itemvalue="Application.TetrisPieceTest" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.21829.142" />
+        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-IU-242.21829.142" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -197,6 +157,8 @@
       <workItem from="1727881689977" duration="2348000" />
       <workItem from="1727891040358" duration="8923000" />
       <workItem from="1728017051386" duration="30771000" />
+      <workItem from="1728419784623" duration="5981000" />
+      <workItem from="1728486472970" duration="9269000" />
     </task>
     <task id="LOCAL-00001" summary="initial">
       <option name="closed" value="true" />
@@ -254,15 +216,7 @@
       <option name="project" value="LOCAL" />
       <updated>1728073300411</updated>
     </task>
-    <task id="LOCAL-00008" summary="New bot">
-      <option name="closed" value="true" />
-      <created>1728273306408</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1728273306408</updated>
-    </task>
-    <option name="localTasksCounter" value="9" />
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -275,18 +229,6 @@
     <MESSAGE value="WOW" />
     <MESSAGE value="more" />
     <MESSAGE value="fix drop height?!/!?!?" />
-    <MESSAGE value="New bot" />
-    <option name="LAST_COMMIT_MESSAGE" value="New bot" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/assignment/Piece.java</url>
-          <line>30</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <option name="LAST_COMMIT_MESSAGE" value="fix drop height?!/!?!?" />
   </component>
 </project>

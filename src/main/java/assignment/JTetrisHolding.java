@@ -15,11 +15,11 @@ import assignment.Piece.PieceType;
  * The Piece and Board classes handle the
  * lower-level computations.
  */
-public class JTetris extends JComponent {
+public class JTetrisHolding extends JComponent {
     private static final long serialVersionUID = 1L;
     // size of the board in blocks
-    public static final int WIDTH = 4;
-    public static final int HEIGHT = 9;
+    public static final int WIDTH = 10;
+    public static final int HEIGHT = 20;
 
     public static final int PIXELS = 16;
 
@@ -27,14 +27,13 @@ public class JTetris extends JComponent {
     // If a piece is sticking up into this area
     // when it has landed -- game over!
     public static final int TOP_SPACE = 4;
-
     /**
      * Creates a Window,
      * installs the JTetris or JBrainTetris,
      * checks the testMode state,
      * install the controls in the WEST.
      */
-    public static void createGUI(JTetris tetris) {
+    public static void createGUI(JTetrisHolding tetris) {
         JFrame frame = new JFrame("Tetris");
         JComponent container = (JComponent)frame.getContentPane();
         container.setLayout(new BorderLayout());
@@ -72,14 +71,14 @@ public class JTetris extends JComponent {
     }
 
     public static void main(String[] args) {
-        createGUI(new JTetris());
+        createGUI(new JTetrisHolding());
     }
 
     // Is drawing optimized
     protected boolean DRAW_OPTIMIZE = true;
 
     // Board data structure
-    protected Board board;
+    protected TetrisBoardHolding board;
 
     // State of the game
     protected boolean gameOn;    // true if we are playing
@@ -94,26 +93,27 @@ public class JTetris extends JComponent {
     protected JButton stopButton;
     protected javax.swing.Timer timer;
     protected JSlider speed;
+    protected JLabel hold;
 
     public final int DELAY = 400;    // milliseconds per tick
 
     // The 7 canonical tetris pieces.
     public final Piece[] PIECES = new Piece[] {
-        new TetrisPiece(PieceType.STICK),
-        new TetrisPiece(PieceType.SQUARE),
-        new TetrisPiece(PieceType.T),
-        new TetrisPiece(PieceType.LEFT_L),
-        new TetrisPiece(PieceType.RIGHT_L),
-        new TetrisPiece(PieceType.LEFT_DOG),
-        new TetrisPiece(PieceType.RIGHT_DOG)
+            new TetrisPiece(PieceType.STICK),
+            new TetrisPiece(PieceType.SQUARE),
+            new TetrisPiece(PieceType.T),
+            new TetrisPiece(PieceType.LEFT_L),
+            new TetrisPiece(PieceType.RIGHT_L),
+            new TetrisPiece(PieceType.LEFT_DOG),
+            new TetrisPiece(PieceType.RIGHT_DOG)
     };
 
-    JTetris() {
+    JTetrisHolding() {
         super();
         setPreferredSize(new Dimension(WIDTH*PIXELS+2, (HEIGHT+TOP_SPACE)*PIXELS+2));
         gameOn = false;
 
-        board = new TetrisBoard(WIDTH, HEIGHT + TOP_SPACE);
+        board = new TetrisBoardHolding(WIDTH, HEIGHT + TOP_SPACE);
 
         /**
          * Register key handlers that call
@@ -122,51 +122,58 @@ public class JTetris extends JComponent {
 
         // LEFT
         registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                tick(Board.Action.LEFT);
-            }
-        },
-        "left", KeyStroke.getKeyStroke('a'), WHEN_IN_FOCUSED_WINDOW);
+                                   public void actionPerformed(ActionEvent e) {
+                                       tick(Board.Action.LEFT);
+                                   }
+                               },
+                "left", KeyStroke.getKeyStroke('a'), WHEN_IN_FOCUSED_WINDOW);
 
         // RIGHT
         registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                tick(Board.Action.DOWN);
-            }
-        },
-        "down", KeyStroke.getKeyStroke('s'), WHEN_IN_FOCUSED_WINDOW);
+                                   public void actionPerformed(ActionEvent e) {
+                                       tick(Board.Action.DOWN);
+                                   }
+                               },
+                "down", KeyStroke.getKeyStroke('s'), WHEN_IN_FOCUSED_WINDOW);
 
         // DOWN
         registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                tick(Board.Action.RIGHT);
-            }
-        },
-        "right", KeyStroke.getKeyStroke('d'), WHEN_IN_FOCUSED_WINDOW);
+                                   public void actionPerformed(ActionEvent e) {
+                                       tick(Board.Action.RIGHT);
+                                   }
+                               },
+                "right", KeyStroke.getKeyStroke('d'), WHEN_IN_FOCUSED_WINDOW);
 
         // ROTATE
         registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                tick(Board.Action.COUNTERCLOCKWISE);
-            }
-        },
-        "counterclockwise", KeyStroke.getKeyStroke('q'), WHEN_IN_FOCUSED_WINDOW);
+                                   public void actionPerformed(ActionEvent e) {
+                                       tick(Board.Action.COUNTERCLOCKWISE);
+                                   }
+                               },
+                "counterclockwise", KeyStroke.getKeyStroke('q'), WHEN_IN_FOCUSED_WINDOW);
 
         // UNROTATE
         registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                tick(Board.Action.CLOCKWISE);
-            }
-        },
-        "clockwise", KeyStroke.getKeyStroke('e'), WHEN_IN_FOCUSED_WINDOW);
+                                   public void actionPerformed(ActionEvent e) {
+                                       tick(Board.Action.CLOCKWISE);
+                                   }
+                               },
+                "clockwise", KeyStroke.getKeyStroke('e'), WHEN_IN_FOCUSED_WINDOW);
 
         // DROP
         registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                tick(Board.Action.DROP);
-            }
-        },
-        "drop", KeyStroke.getKeyStroke('w'), WHEN_IN_FOCUSED_WINDOW);
+                                   public void actionPerformed(ActionEvent e) {
+                                       tick(Board.Action.DROP);
+                                   }
+                               },
+                "drop", KeyStroke.getKeyStroke('w'), WHEN_IN_FOCUSED_WINDOW);
+
+        registerKeyboardAction(new ActionListener() {
+                                   public void actionPerformed(ActionEvent e) {
+                                       tick(Board.Action.HOLD);
+                                   }
+                               },
+                "hold", KeyStroke.getKeyStroke('c'), WHEN_IN_FOCUSED_WINDOW);
 
         // Create the Timer object and have it send
         // tick(DOWN) periodically
@@ -183,7 +190,7 @@ public class JTetris extends JComponent {
      */
     public void startGame() {
         // cheap way to reset the board state
-        board = new TetrisBoard(WIDTH, HEIGHT + TOP_SPACE);
+        board = new TetrisBoardHolding(WIDTH, HEIGHT + TOP_SPACE);
 
         // draw the new board state once
         repaint();
@@ -226,7 +233,7 @@ public class JTetris extends JComponent {
      * set in startGame().
      */
     public Piece pickNextPiece() {
-        return PIECES[0];
+        return PIECES[random.nextInt(PIECES.length)];
     }
 
     /**
@@ -257,20 +264,21 @@ public class JTetris extends JComponent {
 
         Board.Result result = board.move(verb);
         switch (result) {
-          case SUCCESS:
-          case OUT_BOUNDS:
-            // The board is responsible for staying in a good state
-            break;
-          case PLACE:
-              if (board.getMaxHeight() > HEIGHT) {
-                  stopGame();
-              }
-          case NO_PIECE:
-              if (gameOn) {
-                  addNewPiece();
-              }
-            break;
+            case SUCCESS:
+            case OUT_BOUNDS:
+                // The board is responsible for staying in a good state
+                break;
+            case PLACE:
+                if (board.getMaxHeight() > HEIGHT) {
+                    stopGame();
+                }
+            case NO_PIECE:
+                if (gameOn) {
+                    addNewPiece();
+                }
+                break;
         }
+        hold.setText("Held piece: " + board.getHeldPiece().getType());
 
         repaint();
     }
@@ -359,13 +367,17 @@ public class JTetris extends JComponent {
             // draw from 0 up to the col height
             for (int y = 0; y < bHeight; y++) {
                 Piece.PieceType pieceType = board.getGrid(x, y);
-                
+
                 // Special case if this position is part of the currently active piece.
                 if(currentPiecePositions.contains(new Point(x, y))) pieceType = currentPiece.getType();
 
                 if (pieceType != null) {
                     // +1 to leave a white border
                     g.setColor(pieceType.getColor());
+                    g.fillRect(left + 1, yPixel(y) + 1, dx, dy);
+                }
+                else{
+                    g.setColor(new Color(215,215,215));
                     g.fillRect(left + 1, yPixel(y) + 1, dx, dy);
                 }
             }
@@ -438,6 +450,13 @@ public class JTetris extends JComponent {
                 updateTimer();
             }
         });
+
+        panel.add(Box.createVerticalStrut(12));
+        JPanel holdPanel = new JPanel(new BorderLayout());
+        hold = new JLabel("Holding: ");
+        holdPanel.add(hold, BorderLayout.LINE_START);
+        holdPanel.setPreferredSize(new Dimension(150, 15));
+        panel.add(holdPanel);
 
         return(panel);
     }
