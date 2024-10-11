@@ -40,7 +40,7 @@ public class MainBrain implements Brain{
         options.add(currentBoard.testMove(Board.Action.DROP));
         firstMoves.add(Board.Action.DROP);
 
-        options.add(currentBoard.testMove(Board.Action.TEST_DROP_LEFT));
+        /*options.add(currentBoard.testMove(Board.Action.TEST_DROP_LEFT));
         firstMoves.add(Board.Action.TEST_DROP_LEFT);
 
         options.add(currentBoard.testMove(Board.Action.TEST_DROP_RIGHT));
@@ -50,7 +50,7 @@ public class MainBrain implements Brain{
         firstMoves.add(Board.Action.TEST_DROP_CW);
 
         options.add(currentBoard.testMove(Board.Action.TEST_DROP_CCW));
-        firstMoves.add(Board.Action.TEST_DROP_CCW);
+        firstMoves.add(Board.Action.TEST_DROP_CCW);*/
 
         // Now we'll add all the places to the left we can DROP
         Board left = currentBoard.testMove(Board.Action.LEFT);
@@ -58,10 +58,10 @@ public class MainBrain implements Brain{
         for(int numOrientations = 0; numOrientations < 4; numOrientations++) {
             while (left.getLastResult() == Board.Result.SUCCESS) {
                 options.add(left.testMove(Board.Action.DROP));
-                options.add(left.testMove(Board.Action.TEST_DROP_LEFT));
+                /*options.add(left.testMove(Board.Action.TEST_DROP_LEFT));
                 options.add(left.testMove(Board.Action.TEST_DROP_RIGHT));
                 options.add(left.testMove(Board.Action.TEST_DROP_CW));
-                options.add(left.testMove(Board.Action.TEST_DROP_CCW));
+                options.add(left.testMove(Board.Action.TEST_DROP_CCW));*/
 
                 if(numOrientations == 0) {
                     for(int i = 0; i < numDropCases; ++i) {
@@ -84,10 +84,10 @@ public class MainBrain implements Brain{
         for(int numOrientations = 0; numOrientations < 4; numOrientations++) {
             while (right.getLastResult() == Board.Result.SUCCESS) {
                 options.add(right.testMove(Board.Action.DROP));
-                options.add(right.testMove(Board.Action.TEST_DROP_LEFT));
+                /*options.add(right.testMove(Board.Action.TEST_DROP_LEFT));
                 options.add(right.testMove(Board.Action.TEST_DROP_RIGHT));
                 options.add(right.testMove(Board.Action.TEST_DROP_CW));
-                options.add(right.testMove(Board.Action.TEST_DROP_CCW));
+                options.add(right.testMove(Board.Action.TEST_DROP_CCW));*/
 
                 if(numOrientations == 0) {
                     for(int i = 0; i < numDropCases; ++i) {

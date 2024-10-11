@@ -82,7 +82,7 @@ public final class TetrisBoardHolding implements Board {
                 updateGridPlaceBlock();
                 lastResult = Result.PLACE;
                 break;
-            case TEST_DROP_LEFT:
+            /*case TEST_DROP_LEFT:
                 currPiecePosition.setLocation(currPiecePosition.x, dropHeight(currPiece, currPiecePosition.x + 1));
                 tryHorizontalShift(-1);
                 lastResult = Result.PLACE;
@@ -105,7 +105,7 @@ public final class TetrisBoardHolding implements Board {
                 tryRotatePiece(COUNTERCLOCKWISE_DIRECTION);
                 lastResult = Result.PLACE;
                 updateGridPlaceBlock();
-                break;
+                break;*/
             case CLOCKWISE:
                 lastResult = tryRotatePiece(CLOCKWISE_DIRECTION);
                 break;

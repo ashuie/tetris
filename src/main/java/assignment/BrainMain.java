@@ -6,6 +6,8 @@ import java.util.ArrayList;
 public class BrainMain implements Brain{
     private ArrayList<Board> options;
     private ArrayList<Board.Action> firstMoves;
+    Board.Action lastMove = Board.Action.NOTHING;
+    Board.Action lastLastMove = Board.Action.NOTHING;
 
     public Board.Action nextMove(Board currentBoard) {
         // Fill the our options array with versions of the new Board
@@ -17,13 +19,17 @@ public class BrainMain implements Brain{
         int bestIndex = 0;
 
         // Check all of the options and get the one with the highest score
-        for (int i = 0; i < options.size(); i++) {
+        for (int i = 0; i < firstMoves.size(); i++) {
             int score = scoreBoard(options.get(i));
             if (score > best) {
                 best = score;
                 bestIndex = i;
             }
         }
+
+        // Last move checks for redundant moves
+        lastLastMove = lastMove;
+        lastMove = firstMoves.get(bestIndex);
 
         // We want to return the first move on the way to the best Board
         return firstMoves.get(bestIndex);
@@ -36,81 +42,164 @@ public class BrainMain implements Brain{
      */
     private void enumerateOptions(Board currentBoard) {
         // We can always drop our current Piece
-        int numDropCases = 5;
+
         options.add(currentBoard.testMove(Board.Action.DROP));
         firstMoves.add(Board.Action.DROP);
 
+        // Add rotation drops and check if this move is redundant with our last moves
+        Board rotationTest = currentBoard.testMove(Board.Action.CLOCKWISE);
+        if(lastMove != Board.Action.COUNTERCLOCKWISE && lastLastMove != Board.Action.COUNTERCLOCKWISE &&
+                lastLastMove != Board.Action.CLOCKWISE) {
+            for(int numOrientations = 0; numOrientations < 2; ++numOrientations) {
+                options.add(rotationTest.testMove(Board.Action.DROP));
+                firstMoves.add(Board.Action.CLOCKWISE);
+                rotationTest.move(Board.Action.CLOCKWISE);
+            }
+        }
+
+        Board rotationTestCCW = currentBoard.testMove(Board.Action.COUNTERCLOCKWISE);
+        if(lastMove != Board.Action.CLOCKWISE && lastLastMove != Board.Action.CLOCKWISE &&
+                lastLastMove != Board.Action.COUNTERCLOCKWISE) {
+            options.add(rotationTestCCW.testMove(Board.Action.DROP));
+            firstMoves.add(Board.Action.COUNTERCLOCKWISE);
+        }
+
         // Now we'll add all the places to the left we can DROP
-        Board left = currentBoard.testMove(Board.Action.LEFT);
+        // We first make sure that our last move wasn't moving the opposite way
 
-        for(int numOrientations = 0; numOrientations < 4; numOrientations++) {
-            while (left.getLastResult() == Board.Result.SUCCESS) {
-                options.add(left.testMove(Board.Action.DROP));
+        if(lastMove != Board.Action.RIGHT) {
+            Board left = currentBoard.testMove(Board.Action.LEFT);
 
-                Board leftD = left.testMove(Board.Action.DOWN);
-                while(leftD.getCurrentPiecePosition().y <
-                        leftD.getColumnHeight(leftD.getCurrentPiecePosition().x) && leftD.getLastResult() == Board.Result.SUCCESS) {
-                    leftD.move(Board.Action.DOWN);
-                }
-                options.add(leftD.testMove(Board.Action.LEFT));
-                firstMoves.add(Board.Action.DOWN);
-                options.add(leftD.testMove(Board.Action.RIGHT));
-                firstMoves.add(Board.Action.DOWN);
-                options.add(leftD.testMove(Board.Action.CLOCKWISE));
-                firstMoves.add(Board.Action.DOWN);
-                options.add(leftD.testMove(Board.Action.COUNTERCLOCKWISE));
-                firstMoves.add(Board.Action.DOWN);
+            for(int numOrientations = 0; numOrientations < 4; numOrientations++) {
+                while (left.getLastResult() == Board.Result.SUCCESS) {
+                    options.add(left.testMove(Board.Action.DROP));
 
-                if(numOrientations == 0) {
-                    for(int i = 0; i < numDropCases; ++i) {
+                    if(numOrientations == 0) {
                         firstMoves.add(Board.Action.LEFT);
                     }
-                }
-                else {
-                    for(int i = 0; i < numDropCases; ++i) {
+                    else if(numOrientations == 1 || numOrientations == 2){
                         firstMoves.add(Board.Action.CLOCKWISE);
                     }
+
+                    // We want to add moves that move down in case we can make a precise move
+                    Board leftD = left.testMove(Board.Action.DOWN);
+                    Board testLeftD = leftD.testMove(Board.Action.DOWN);
+                    while(testLeftD.getLastResult() != Board.Result.PLACE && leftD.getLastResult() == Board.Result.SUCCESS) {
+                        leftD.move(Board.Action.DOWN);
+                        testLeftD.move(Board.Action.DOWN);
+                    }
+
+                    Board newBoard = leftD.testMove(Board.Action.LEFT);
+                    options.add(newBoard.testMove(Board.Action.DROP));
+                    newBoard = leftD.testMove(Board.Action.RIGHT);
+                    options.add(newBoard.testMove(Board.Action.DROP));
+                    newBoard = leftD.testMove(Board.Action.CLOCKWISE);
+                    options.add(newBoard.testMove(Board.Action.DROP));
+                    newBoard = leftD.testMove(Board.Action.COUNTERCLOCKWISE);
+                    options.add(newBoard.testMove(Board.Action.DROP));
+                    if(numOrientations == 0) {
+                        firstMoves.add(Board.Action.LEFT);
+                        firstMoves.add(Board.Action.LEFT);
+                        firstMoves.add(Board.Action.LEFT);
+                        firstMoves.add(Board.Action.LEFT);
+                    }
+                    else if(numOrientations == 1 || numOrientations == 2){
+                        firstMoves.add(Board.Action.CLOCKWISE);
+                        firstMoves.add(Board.Action.CLOCKWISE);
+                        firstMoves.add(Board.Action.CLOCKWISE);
+                        firstMoves.add(Board.Action.CLOCKWISE);
+                    }
+                    else {
+                        firstMoves.add(Board.Action.COUNTERCLOCKWISE);
+                        firstMoves.add(Board.Action.COUNTERCLOCKWISE);
+                        firstMoves.add(Board.Action.COUNTERCLOCKWISE);
+                        firstMoves.add(Board.Action.COUNTERCLOCKWISE);
+                    }
+
+                    left.move(Board.Action.LEFT);
                 }
-                left.move(Board.Action.LEFT);
+                left.move(Board.Action.CLOCKWISE);
             }
-            left.move(Board.Action.CLOCKWISE);
         }
 
         // Similarly, we add all the places to the right we can drop
-        Board right = currentBoard.testMove(Board.Action.RIGHT);
+        if(lastMove != Board.Action.LEFT) {
+            Board right = currentBoard.testMove(Board.Action.RIGHT);
 
-        for(int numOrientations = 0; numOrientations < 4; numOrientations++) {
-            while (right.getLastResult() == Board.Result.SUCCESS) {
-                options.add(right.testMove(Board.Action.DROP));
+            for(int numOrientations = 0; numOrientations < 4; numOrientations++) {
+                while (right.getLastResult() == Board.Result.SUCCESS) {
+                    options.add(right.testMove(Board.Action.DROP));
 
-                Board rightD = left.testMove(Board.Action.DOWN);
-                while(rightD.getCurrentPiecePosition().y <
-                        rightD.getColumnHeight(rightD.getCurrentPiecePosition().x) && rightD.getLastResult() == Board.Result.SUCCESS) {
-                    rightD.move(Board.Action.DOWN);
-                }
-                options.add(rightD.testMove(Board.Action.LEFT));
-                firstMoves.add(Board.Action.DOWN);
-                options.add(rightD.testMove(Board.Action.RIGHT));
-                firstMoves.add(Board.Action.DOWN);
-                options.add(rightD.testMove(Board.Action.CLOCKWISE));
-                firstMoves.add(Board.Action.DOWN);
-                options.add(rightD.testMove(Board.Action.COUNTERCLOCKWISE));
-                firstMoves.add(Board.Action.DOWN);
-
-                if(numOrientations == 0) {
-                    for(int i = 0; i < numDropCases; ++i) {
+                    if(numOrientations == 0) {
                         firstMoves.add(Board.Action.RIGHT);
                     }
-                }
-                else {
-                    for(int i = 0; i < numDropCases; ++i) {
+                    else if(numOrientations == 1 || numOrientations == 2){
                         firstMoves.add(Board.Action.CLOCKWISE);
                     }
+                    else {
+                        firstMoves.add(Board.Action.COUNTERCLOCKWISE);
+                    }
+
+                    Board rightD = right.testMove(Board.Action.DOWN);
+                    Board testRightD = rightD.testMove(Board.Action.DOWN);
+                    while(testRightD.getLastResult() != Board.Result.PLACE && rightD.getLastResult() == Board.Result.SUCCESS) {
+                        rightD.move(Board.Action.DOWN);
+                        testRightD.move(Board.Action.DOWN);
+                    }
+                    Board newBoard = rightD.testMove(Board.Action.LEFT);
+                    options.add(newBoard.testMove(Board.Action.DROP));
+                    newBoard = rightD.testMove(Board.Action.RIGHT);
+                    options.add(newBoard.testMove(Board.Action.DROP));
+                    newBoard = rightD.testMove(Board.Action.CLOCKWISE);
+                    options.add(newBoard.testMove(Board.Action.DROP));
+                    newBoard = rightD.testMove(Board.Action.COUNTERCLOCKWISE);
+                    options.add(newBoard.testMove(Board.Action.DROP));
+
+                    if(numOrientations == 0) {
+                        firstMoves.add(Board.Action.RIGHT);
+                        firstMoves.add(Board.Action.RIGHT);
+                        firstMoves.add(Board.Action.RIGHT);
+                        firstMoves.add(Board.Action.RIGHT);
+                    }
+                    else if(numOrientations == 1 || numOrientations == 2){
+                        firstMoves.add(Board.Action.CLOCKWISE);
+                        firstMoves.add(Board.Action.CLOCKWISE);
+                        firstMoves.add(Board.Action.CLOCKWISE);
+                        firstMoves.add(Board.Action.CLOCKWISE);
+                    }
+                    else {
+                        firstMoves.add(Board.Action.COUNTERCLOCKWISE);
+                        firstMoves.add(Board.Action.COUNTERCLOCKWISE);
+                        firstMoves.add(Board.Action.COUNTERCLOCKWISE);
+                        firstMoves.add(Board.Action.COUNTERCLOCKWISE);
+                    }
+
+                    right.move(Board.Action.RIGHT);
                 }
-                right.move(Board.Action.RIGHT);
+                right.move(Board.Action.CLOCKWISE);
             }
-            right.move(Board.Action.CLOCKWISE);
         }
+
+        // Now we add moves that move down without dropping
+        Board down = currentBoard.testMove(Board.Action.DOWN);
+        Board downD = down.testMove(Board.Action.DOWN);
+        while(downD.getLastResult() != Board.Result.PLACE && down.getLastResult() == Board.Result.SUCCESS) {
+            down.move(Board.Action.DOWN);
+            downD.move(Board.Action.DOWN);
+        }
+
+        Board downBoard = down.testMove(Board.Action.LEFT);
+        options.add(downBoard.testMove(Board.Action.DROP));
+        firstMoves.add(Board.Action.DOWN);
+        downBoard = down.testMove(Board.Action.RIGHT);
+        options.add(downBoard.testMove(Board.Action.DROP));
+        firstMoves.add(Board.Action.DOWN);
+        downBoard = down.testMove(Board.Action.CLOCKWISE);
+        options.add(downBoard.testMove(Board.Action.DROP));
+        firstMoves.add(Board.Action.DOWN);
+        downBoard = down.testMove(Board.Action.COUNTERCLOCKWISE);
+        options.add(downBoard.testMove(Board.Action.DROP));
+        firstMoves.add(Board.Action.DOWN);
     }
 
     /**

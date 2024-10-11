@@ -149,7 +149,7 @@ public final class TetrisBoard implements Board {
         for(int i = 0; i < piece.getSkirt().length; ++i) {
             int sk = piece.getSkirt()[i];
             if(sk != Integer.MAX_VALUE) {
-                if(yHeight + sk - 1 < 0 ||
+                if(yHeight + sk - 1< 0 ||
                         grid[currX + i][yHeight + sk - 1] != null) {
                     return true;
                 }
