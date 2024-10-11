@@ -10,12 +10,12 @@ import java.util.ArrayList;
 
 public class TetrisBrainTest {
     JBrainTetris game;
-    MainBrain brain;
+    FinalBrain brain;
 
     @BeforeEach
     public void newGame() {
         game = new JBrainTetris();
-        brain = new MainBrain();
+        brain = new FinalBrain();
     }
 
     @Test

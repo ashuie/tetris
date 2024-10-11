@@ -2,17 +2,16 @@ package assignment;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Random;
 
 public class JBrainTetris extends JTetris{
-    BrainMain bigBrain;
+    FinalBrain bigBrain;
     javax.swing.Timer downTimer;
 
     JBrainTetris() {
         gameOn = false;
 
         board = new TetrisBoard(WIDTH, HEIGHT + TOP_SPACE);
-        bigBrain = new BrainMain();
+        bigBrain = new FinalBrain();
 
         // initialize tick down to lower piece
         downTimer = new javax.swing.Timer(DELAY, new ActionListener() {
