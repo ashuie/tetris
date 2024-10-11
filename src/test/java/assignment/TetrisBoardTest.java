@@ -3,7 +3,6 @@ package assignment;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
-import org.testng.Assert;
 
 import java.awt.Point;
 import java.util.Arrays;

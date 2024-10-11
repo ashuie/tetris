@@ -71,13 +71,13 @@ public final class TetrisBoard implements Board {
                 lastResult = Result.PLACE;
                 break;
             case TEST_DROP_LEFT:
-                currPiecePosition.setLocation(currPiecePosition.x, dropHeight(currPiece, currPiecePosition.x + 1));
+                currPiecePosition.setLocation(currPiecePosition.x, dropHeight(currPiece, currPiecePosition.x ));
                 tryHorizontalShift(-1);
                 lastResult = Result.PLACE;
                 updateGridPlaceBlock();
                 break;
             case TEST_DROP_RIGHT:
-                currPiecePosition.setLocation(currPiecePosition.x, dropHeight(currPiece, currPiecePosition.x + 1));
+                currPiecePosition.setLocation(currPiecePosition.x, dropHeight(currPiece, currPiecePosition.x ));
                 tryHorizontalShift(1);
                 lastResult = Result.PLACE;
                 updateGridPlaceBlock();
