@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="33ba9eb7-48e3-45c0-9431-f2a6a30e658a" name="Changes" comment="Rename">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/assignment/GradientDescentBrain.java" afterDir="false" />
+    <list default="true" id="33ba9eb7-48e3-45c0-9431-f2a6a30e658a" name="Changes" comment="testttttting">
+      <change afterPath="$PROJECT_DIR$/src/main/java/assignment/JTetrisHolding.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/assignment/TetrisBoardHolding.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_1_2024_4_25_PM_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_1_2024_4_25_PM__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/assignment/JTetris.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/assignment/JTetris.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/assignment/TetrisBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/assignment/TetrisBoard.java" afterDir="false" />
@@ -33,12 +35,12 @@
     &quot;assignee&quot;: &quot;ashuie&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/ashuie/tetris",
-    "accountId": "a5a51a1e-2f62-44fa-bc37-28146cc77216"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/ashuie/tetris&quot;,
+    &quot;accountId&quot;: &quot;687c8076-6a0b-4851-90a0-a6a6344a5292&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
 }</component>
@@ -48,37 +50,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.JBrainTetris.executor": "Run",
-    "Application.JTetris.executor": "Run",
-    "Application.JTetrisHolding.executor": "Run",
-    "Application.TetrisPieceTest.executor": "Run",
-    "Downloaded.Files.Path.Enabled": "false",
-    "JUnit.TetrisBoardTest.executor": "Run",
-    "JUnit.TetrisBoardTest.testBoardSpawnPiece.executor": "Debug",
-    "JUnit.TetrisPieceTest.executor": "Run",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "TestNG.TetrisPieceTest.executor": "Run",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/ashle/IdeaProjects/prog4",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "SDKs",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.JBrainTetris.executor&quot;: &quot;Run&quot;,
+    &quot;Application.JTetris.executor&quot;: &quot;Run&quot;,
+    &quot;Application.JTetrisHolding.executor&quot;: &quot;Run&quot;,
+    &quot;Application.TetrisPieceTest.executor&quot;: &quot;Run&quot;,
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;JUnit.TetrisBoardTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TetrisBoardTest.testBoardSpawnPiece.executor&quot;: &quot;Debug&quot;,
+    &quot;JUnit.TetrisPieceTest.executor&quot;: &quot;Run&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;TestNG.TetrisPieceTest.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/ashle/IdeaProjects/prog4&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
-  <component name="RunManager" selected="Application.JBrainTetris">
+}</component>
+  <component name="RunManager">
     <configuration name="JBrainTetris" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="assignment.JBrainTetris" />
       <module name="prog4" />
@@ -124,6 +125,14 @@
         <item itemvalue="Application.TetrisPieceTest" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.21829.142" />
+        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-IU-242.21829.142" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -207,23 +216,7 @@
       <option name="project" value="LOCAL" />
       <updated>1728073300411</updated>
     </task>
-    <task id="LOCAL-00008" summary="Tests and comments">
-      <option name="closed" value="true" />
-      <created>1728588488141</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1728588488141</updated>
-    </task>
-    <task id="LOCAL-00009" summary="Rename">
-      <option name="closed" value="true" />
-      <created>1728607492290</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1728607492290</updated>
-    </task>
-    <option name="localTasksCounter" value="10" />
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -236,8 +229,6 @@
     <MESSAGE value="WOW" />
     <MESSAGE value="more" />
     <MESSAGE value="fix drop height?!/!?!?" />
-    <MESSAGE value="Tests and comments" />
-    <MESSAGE value="Rename" />
-    <option name="LAST_COMMIT_MESSAGE" value="Rename" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix drop height?!/!?!?" />
   </component>
 </project>
