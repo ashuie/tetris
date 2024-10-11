@@ -1,6 +1,5 @@
 package assignment;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,7 +8,7 @@ public class JBrainTetris extends JTetris{
     LameBrain lameBrain;
     RotationBrain brainRot;
     BigBrain bigBrain;
-    TestBrain test;
+    MainBrain test;
 
     JBrainTetris() {
         setPreferredSize(new Dimension(WIDTH*PIXELS+2, (HEIGHT+TOP_SPACE)*PIXELS+2));
@@ -19,7 +18,7 @@ public class JBrainTetris extends JTetris{
         lameBrain = new LameBrain();
         brainRot = new RotationBrain();
         bigBrain = new BigBrain();
-        test = new TestBrain();
+        test = new MainBrain();
 
         timer = new javax.swing.Timer(DELAY, new ActionListener() {
             public void actionPerformed(ActionEvent e) {

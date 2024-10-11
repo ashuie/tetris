@@ -4,15 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="33ba9eb7-48e3-45c0-9431-f2a6a30e658a" name="Changes" comment="testttttting">
-      <change afterPath="$PROJECT_DIR$/src/main/java/assignment/JTetrisHolding.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/assignment/TetrisBoardHolding.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_1_2024_4_25_PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_1_2024_4_25_PM__Changes_.xml" beforeDir="false" />
+    <list default="true" id="33ba9eb7-48e3-45c0-9431-f2a6a30e658a" name="Changes" comment="Tests and comments">
+      <change afterPath="$PROJECT_DIR$/src/main/java/assignment/GradientDescentBrain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/assignment/JTetris.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/assignment/JTetris.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/assignment/TetrisBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/assignment/TetrisBoard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/assignment/TetrisBoardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/assignment/TetrisBoardTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +73,7 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.JTetris">
     <configuration name="JBrainTetris" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="assignment.JBrainTetris" />
       <module name="prog4" />
@@ -216,7 +210,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728073300411</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Tests and comments">
+      <option name="closed" value="true" />
+      <created>1728588488141</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1728588488141</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -229,6 +231,7 @@
     <MESSAGE value="WOW" />
     <MESSAGE value="more" />
     <MESSAGE value="fix drop height?!/!?!?" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix drop height?!/!?!?" />
+    <MESSAGE value="Tests and comments" />
+    <option name="LAST_COMMIT_MESSAGE" value="Tests and comments" />
   </component>
 </project>

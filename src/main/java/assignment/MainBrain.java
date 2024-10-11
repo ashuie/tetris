@@ -3,7 +3,7 @@ package assignment;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class TestBrain implements Brain{
+public class MainBrain implements Brain{
     private ArrayList<Board> options;
     private ArrayList<Board.Action> firstMoves;
 

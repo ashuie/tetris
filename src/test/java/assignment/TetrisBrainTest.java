@@ -10,12 +10,12 @@ import java.util.ArrayList;
 
 public class TetrisBrainTest {
     JBrainTetris game;
-    TestBrain brain;
+    MainBrain brain;
 
     @BeforeEach
     public void newGame() {
         game = new JBrainTetris();
-        brain = new TestBrain();
+        brain = new MainBrain();
     }
 
     @Test
@@ -23,7 +23,7 @@ public class TetrisBrainTest {
     public void testMoveValidity() {
         JTetris.createGUI(game);
         game.startGame();
-        Assertions.assertFalse(TestBrain.outOfBounds(game.board, game.board.getCurrentPiecePosition().x,
+        Assertions.assertFalse(MainBrain.outOfBounds(game.board, game.board.getCurrentPiecePosition().x,
                 game.board.getCurrentPiecePosition().y));
     }
 
@@ -47,7 +47,7 @@ public class TetrisBrainTest {
         board.nextPiece(new TetrisPiece(Piece.PieceType.STICK), new Point(0, 2));
         brain.nextMove(board);
 
-        Field privateField3 = TestBrain.class.getDeclaredField("options");
+        Field privateField3 = MainBrain.class.getDeclaredField("options");
         privateField3.setAccessible(true);
         ArrayList<Board> options = (ArrayList<Board>) privateField3.get(brain);
 
@@ -99,7 +99,7 @@ public class TetrisBrainTest {
         board.nextPiece(new TetrisPiece(Piece.PieceType.STICK), new Point(0, 5));
         brain.nextMove(board);
 
-        Field privateField3 = TestBrain.class.getDeclaredField("options");
+        Field privateField3 = MainBrain.class.getDeclaredField("options");
         privateField3.setAccessible(true);
         ArrayList<Board> options = (ArrayList<Board>) privateField3.get(brain);
 
