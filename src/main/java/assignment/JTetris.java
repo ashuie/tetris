@@ -18,7 +18,7 @@ import assignment.Piece.PieceType;
 public class JTetris extends JComponent {
     private static final long serialVersionUID = 1L;
     // size of the board in blocks
-    public static final int WIDTH = 10;
+    public static final int WIDTH = 5;
     public static final int HEIGHT = 20;
 
     public static final int PIXELS = 16;
