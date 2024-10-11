@@ -9,6 +9,7 @@ public class JBrainTetris extends JTetris{
     RotationBrain brainRot;
     BigBrain bigBrain;
     MainBrain test;
+    BrainMain main;
 
     JBrainTetris() {
         setPreferredSize(new Dimension(WIDTH*PIXELS+2, (HEIGHT+TOP_SPACE)*PIXELS+2));
@@ -19,6 +20,7 @@ public class JBrainTetris extends JTetris{
         brainRot = new RotationBrain();
         bigBrain = new BigBrain();
         test = new MainBrain();
+        main = new BrainMain();
 
         timer = new javax.swing.Timer(DELAY, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -34,7 +36,7 @@ public class JBrainTetris extends JTetris{
             }, "drop", KeyStroke.getKeyStroke('w'), WHEN_IN_FOCUSED_WINDOW);*/
         timer = new javax.swing.Timer(0, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                tick(test.nextMove(board));
+                tick(main.nextMove(board));
             }
         });
     }
