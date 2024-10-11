@@ -3,6 +3,7 @@ package assignment;
 import java.awt.*;
 import java.util.ArrayList;
 
+// USE THIS ONE FOR NOW
 public class BigBrain implements Brain {
     private ArrayList<Board> options;
     private ArrayList<Board.Action> firstMoves;

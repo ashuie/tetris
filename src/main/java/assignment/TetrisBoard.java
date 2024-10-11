@@ -70,30 +70,6 @@ public final class TetrisBoard implements Board {
                 updateGridPlaceBlock();
                 lastResult = Result.PLACE;
                 break;
-            case TEST_DROP_LEFT:
-                currPiecePosition.setLocation(currPiecePosition.x, dropHeight(currPiece, currPiecePosition.x));
-                tryHorizontalShift(-1);
-                lastResult = Result.PLACE;
-                updateGridPlaceBlock();
-                break;
-            case TEST_DROP_RIGHT:
-                currPiecePosition.setLocation(currPiecePosition.x, dropHeight(currPiece, currPiecePosition.x));
-                tryHorizontalShift(1);
-                lastResult = Result.PLACE;
-                updateGridPlaceBlock();
-                break;
-            case TEST_DROP_CW:
-                currPiecePosition.setLocation(currPiecePosition.x, dropHeight(currPiece, currPiecePosition.x));
-                tryRotatePiece(CLOCKWISE_DIRECTION);
-                lastResult = Result.PLACE;
-                updateGridPlaceBlock();
-                break;
-            case TEST_DROP_CCW:
-                currPiecePosition.setLocation(currPiecePosition.x, dropHeight(currPiece, currPiecePosition.x));
-                tryRotatePiece(COUNTERCLOCKWISE_DIRECTION);
-                lastResult = Result.PLACE;
-                updateGridPlaceBlock();
-                break;
             case CLOCKWISE:
                 lastResult = tryRotatePiece(CLOCKWISE_DIRECTION);
                 break;

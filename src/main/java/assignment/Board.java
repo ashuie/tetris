@@ -61,11 +61,6 @@ public interface Board {
          */
         DROP,
 
-        TEST_DROP_LEFT,
-        TEST_DROP_RIGHT,
-        TEST_DROP_CW,
-        TEST_DROP_CCW,
-
         /**
          * Attempt to rotate the piece clockwise, applying wall-kicks if necessary. If the wall kicks
          * could not be successfully applied, return Result.OUT_BOUNDS.
