@@ -356,17 +356,11 @@ public class TetrisBoardTest {
             board.nextPiece(stick.counterclockwisePiece(), new Point(i, 1));
             board.move(Board.Action.DOWN);
         }
-        /*for (int i = 0; i < board.getWidth(); i++) {
-            for (int j = 0; j < board.getHeight(); j++) {
-                System.out.println("(" + i + ", " + j + "): " + board.getGrid(i, j));
-            }
-        }*/
         Piece.PieceType[][] expectedGrid = new Piece.PieceType[4][6];
         Assertions.assertArrayEquals(expectedGrid, board.getFullGrid());
         Assertions.assertArrayEquals(new int[] {0, 0, 0, 0}, board.getAllColumnHeights());
         Assertions.assertArrayEquals(new int[] {0, 0, 0, 0, 0, 0}, board.getAllRowWidths());
         Assertions.assertEquals(0, board.getMaxHeight());
-        //Assertions.assertEquals(4, board.getRowsCleared());
     }
 
     @Test
@@ -429,80 +423,5 @@ public class TetrisBoardTest {
         }
         return initGrid;
     }
-   /* @Test
-    public void testWallKick0RTest2() {
-        board = new TetrisBoard(5, 5);
-        Piece.PieceType[][] initialGrid = new Piece.PieceType[][]{
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, Piece.PieceType.STICK},
-                {null, null, null, null},
-        };
-        board.setGrid(initialGrid);
-        board.nextPiece(leftdog, new Point(0, 1));
-        board.move(Board.Action.CLOCKWISE);
-
-        Assertions.assertEquals(Board.Result.SUCCESS, board.getLastResult());
-        Assertions.assertEquals(Board.Action.CLOCKWISE, board.getLastAction());
-        Assertions.assertEquals(new Point(-1, 1), board.getCurrentPiecePosition());
-    }
-
-    @Test
-    public void testWallKick0RTest3() {
-        board = new TetrisBoard(5,4);
-        Piece.PieceType[][] initialGrid = new Piece.PieceType[][]{
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, Piece.PieceType.STICK, null},
-                {null, null, null, null},
-                {null, null, null, null},
-        };
-        board.setGrid(initialGrid);
-        board.nextPiece(leftl, new Point(1,0));
-        board.move(Board.Action.CLOCKWISE);
-
-        Assertions.assertEquals(Board.Result.SUCCESS, board.getLastResult());
-        Assertions.assertEquals(Board.Action.CLOCKWISE, board.getLastAction());
-        Assertions.assertEquals(new Point(0, 1), board.getCurrentPiecePosition());
-    }
-
-    @Test
-    public void testWallKick0RTest4() {
-        board = new TetrisBoard(5,5);
-        Piece.PieceType[][] initialGrid = new Piece.PieceType[][]{
-                {null, null, null, null, null},
-                {null, null, null, null, Piece.PieceType.T},
-                {null, null, null, null, null},
-                {null, null, null, Piece.PieceType.LEFT_L, null},
-                {null, null, null, null, null},
-        };
-        board.setGrid(initialGrid);
-        board.nextPiece(rightdog, new Point(1,2));
-        board.move(Board.Action.CLOCKWISE);
-
-        Assertions.assertEquals(Board.Result.SUCCESS, board.getLastResult());
-        Assertions.assertEquals(Board.Action.CLOCKWISE, board.getLastAction());
-        Assertions.assertEquals(new Point(1, 0), board.getCurrentPiecePosition());
-    }
-
-    @Test
-    public void testWallKick0RTest5() {
-        board = new TetrisBoard(5,6);
-        Piece.PieceType[][] initialGrid = new Piece.PieceType[][]{
-                {null, null, null, null, null, null},
-                {null, null, null, null, Piece.PieceType.T, null},
-                {null, null, null, null, null, null},
-                {Piece.PieceType.T, null, Piece.PieceType.T, null, null, null},
-                {null, null, null, null, null, null},
-        };
-
-        board.setGrid(initialGrid);
-        board.nextPiece(rightl, new Point(1, 2));
-        board.move(Board.Action.CLOCKWISE);
-
-        Assertions.assertEquals(Board.Result.SUCCESS, board.getLastResult());
-        Assertions.assertEquals(Board.Action.CLOCKWISE, board.getLastAction());
-        Assertions.assertEquals(new Point(0, 0), board.getCurrentPiecePosition());
-    }*/
 
 }
