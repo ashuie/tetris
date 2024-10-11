@@ -53,6 +53,7 @@ public final class TetrisPiece implements Piece {
             Point[] newBody = new Point[body.length];
             for (int j = 0; j < body.length; j++) {
                 Point currPoint = curr.data.getBody()[j];
+                // Compute new X and Y values for a 90 degree CW rotation
                 int newX = (int)currPoint.getY();
                 int newY = width - (int)currPoint.getX() - 1;
                 newBody[j] = new Point(newX, newY);
@@ -60,6 +61,7 @@ public final class TetrisPiece implements Piece {
             rotations.insert(new TetrisPiece(type, i, newBody));
             curr = curr.next;
         }
+        // Set rotations linked list for all nodes in current piece's rotations
         CircularLL.Node head = rotations.getHead();
         curr = head;
         do {
@@ -76,6 +78,7 @@ public final class TetrisPiece implements Piece {
     public void generateSkirt(Point[] body) {
         skirt = new int[width];
         Arrays.fill(skirt, Integer.MAX_VALUE);
+        // Set skirt to the minimum y value in a given row
         for (Point p : body) {
             if (p.y < skirt[p.x]) {
                 skirt[p.x] = p.y;
@@ -141,13 +144,5 @@ public final class TetrisPiece implements Piece {
         if(!(other instanceof TetrisPiece)) return false;
         TetrisPiece otherPiece = (TetrisPiece) other;
         return this.rotationIndex == otherPiece.rotationIndex && this.type == otherPiece.type;
-    }
-
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for (Point p : body) {
-            sb.append("( ").append(p.x).append(", ").append(p.y).append(" )   ");
-        }
-        return sb.toString();
     }
 }

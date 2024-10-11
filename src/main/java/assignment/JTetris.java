@@ -18,8 +18,8 @@ import assignment.Piece.PieceType;
 public class JTetris extends JComponent {
     private static final long serialVersionUID = 1L;
     // size of the board in blocks
-    public static final int WIDTH = 4;
-    public static final int HEIGHT = 9;
+    public static final int WIDTH = 10;
+    public static final int HEIGHT = 20;
 
     public static final int PIXELS = 16;
 
@@ -226,7 +226,7 @@ public class JTetris extends JComponent {
      * set in startGame().
      */
     public Piece pickNextPiece() {
-        return PIECES[0];
+        return PIECES[random.nextInt(PIECES.length)];
     }
 
     /**

@@ -56,21 +56,6 @@ public class TetrisBoardTest {
         board.nextPiece(leftl, new Point(0, 1));
         Assertions.assertEquals(leftl, board.getCurrentPiece());
         Assertions.assertEquals(new Point(0, 1), board.getCurrentPiecePosition());
-        /*HashSet<Point> expectedGrid = new HashSet<>();
-        expectedGrid.add(new Point(0, 2));
-        expectedGrid.add(new Point(1, 2));
-        expectedGrid.add(new Point(2, 2));
-        expectedGrid.add(new Point(2, 3));
-        for (int i = 0; i < board.getWidth(); i++) {
-            for (int j = 0; j < board.getHeight(); j++) {
-                System.out.println("i : " + i + " j : " + j + " board : " + board.getGrid(i, j));
-                if (expectedGrid.contains(new Point(i, j))) {
-                    Assertions.assertEquals(board.getGrid(i, j), Piece.PieceType.LEFT_L);
-                } else {
-                    Assertions.assertNull(board.getGrid(i, j));
-                }
-            }
-        }*/
     }
 
     @Test

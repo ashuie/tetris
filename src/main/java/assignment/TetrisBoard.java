@@ -103,6 +103,7 @@ public final class TetrisBoard implements Board {
             case NOTHING:
             default:
                 lastResult = Result.NO_PIECE;
+                break;
         }
         return lastResult;
     }
@@ -121,7 +122,6 @@ public final class TetrisBoard implements Board {
     }
 
     private void updateColHeight(int hLeft, int hRight) {
-        int currX = currPiecePosition.x;
         // Check all columns of which the block placed occupies
         for (int i = hLeft; i < hRight; i++) {
             for (int j = height - 1; j >= 0; j--) {
@@ -139,6 +139,7 @@ public final class TetrisBoard implements Board {
 
     private void clearRows() {
         HashSet<Integer> completeRows = new HashSet<>();
+        // Add all full row indices to the hash set
         for(int row = 0; row < height; row++) {
             if(rowWidths[row] == width) {
                 completeRows.add(row);
@@ -198,7 +199,6 @@ public final class TetrisBoard implements Board {
     private void tryHorizontalShift(int xOffset) {
         // Only shift the piece by horizontal offset if not out of bounds in new position
         if(outOfBounds(currPiece, currPiecePosition, xOffset, 0)) {
-            //System.out.println(currPiecePosition);
             lastAction = Action.NOTHING;
             lastResult = Result.OUT_BOUNDS;
         } else {
@@ -306,9 +306,11 @@ public final class TetrisBoard implements Board {
     @Override
     public int dropHeight(Piece piece, int x) {
         int dropHeightY = height - MAX_PIECE_HEIGHT;
+        // Set height to current piece y height if drop height is being called on currPiece
         if (piece.equals(currPiece)) {
             dropHeightY = currPiecePosition.y;
         }
+        // Lower piece incrementally while not out of bounds
         while (!downOutOfBounds(piece, x, dropHeightY)) {
             dropHeightY--;
         }
